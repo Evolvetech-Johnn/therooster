@@ -2,107 +2,113 @@
     padding-bottom: 2rem;
 }
 
-.promo-banner {
-    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-hover) 100%);
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
+/* Quick Actions Section (McD Style) */
+.quick-actions-section {
     margin: 2rem 0;
+}
+
+.quick-action-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 600px) {
+    .quick-action-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.quick-action-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
     display: flex;
+    flex-direction: row; /* Row by default for tiles */
     align-items: center;
     justify-content: space-between;
-    gap: 3rem;
-    border: 1px solid var(--color-accent);
-    position: relative;
-    overflow: hidden;
+    padding: 0;
+    text-decoration: none;
+    box-shadow: var(--shadow-md);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color, transparent);
+    height: 180px;
 }
 
-.promo-banner:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px -12px rgba(255, 102, 0, 0.15);
+.quick-action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    border-color: var(--color-primary);
 }
 
-.promo-content {
+.qa-content {
     flex: 1;
+    padding: 2rem;
     z-index: 2;
+    background: linear-gradient(90deg, var(--bg-card) 60%, transparent 100%);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-.promo-badge {
-    background-color: var(--color-primary);
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    display: inline-block;
+.quick-action-card h3 {
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
-}
-
-.promo-content h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    line-height: 1.1;
     color: var(--text-main);
+    font-family: var(--font-heading);
 }
 
-.promo-content p {
+.quick-action-card p {
     color: var(--text-secondary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
 }
 
-.promo-image {
-    width: 40%;
-    max-width: 200px;
+.qa-btn {
+    background: var(--color-primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.qa-img {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 60%;
+    height: 100%;
+    object-fit: cover;
     z-index: 1;
+    mask-image: linear-gradient(to left, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, black 60%, transparent 100%);
 }
 
-.promo-image img {
-    border-radius: var(--radius-md);
-    transform: rotate(3deg);
-    box-shadow: var(--shadow-lg);
+.qa-menu .qa-btn { background: var(--color-primary); }
+.qa-account .qa-btn { background: var(--color-secondary); }
+
+/* Categories Section Adjustments */
+.categories-section {
+    margin-top: 3rem;
 }
 
-.btn-cta {
-    padding: 0.75rem 1.75rem;
-    font-size: 1rem;
-    box-shadow: 0 4px 14px 0 rgba(255, 102, 0, 0.39);
-    transition: all 0.2s ease;
+.categories-section .section-header h2 {
+    font-size: 1.5rem; /* Bigger title */
 }
 
-.btn-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 102, 0, 0.23);
+/* Coupon Item fake card */
+.coupon-item {
+    border: 2px dashed var(--color-success);
+    background: rgba(var(--color-success-rgb), 0.1);
 }
 
-.btn-cta:focus-visible, 
-.category-card:focus-visible, 
-.btn-icon:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 4px;
-}
+/* Cleanup old promo styles */
+.promo-banner { display: none; }
 
-@media (max-width: 600px) {
-    .promo-banner {
-        flex-direction: column-reverse; /* Text on top usually better, but banner image bottom often looks nicer in mobile if text is short. Here standard column often puts image top. Let's do standard column for now or just text overlay? Wireframe said Banner -> Text. */
-        /* Let's keep flex, but adjust image. */
-        align-items: flex-start;
-        text-align: left;
-    }
-    .promo-image {
-        width: 100%;
-        max-width: 100%;
-        height: 150px;
-        margin-bottom: 1rem;
-    }
-    .promo-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transform: none;
-    }
-}
 
 .home-section {
     margin-bottom: 2.5rem;

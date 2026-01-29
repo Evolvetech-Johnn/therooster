@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, Drumstick, UtensilsCrossed, Sandwich, Package, Pizza, IceCream, Baby, Coffee } from 'lucide-react';
 import { motion } from 'framer-motion';
+import HeroSlider from '../../components/home/HeroSlider';
 import { products, categories } from '../../services/mockData';
 
 import { formatCurrency } from '../../utils/formatters';
@@ -57,29 +58,36 @@ const Home = () => {
             variants={containerVariants}
         >
             <div className="container">
-                {/* 1. Banner Promocional */}
-                <motion.section className="promo-banner" variants={itemVariants}>
-                    <div className="promo-content">
-                        <span className="promo-badge">Oferta do Dia</span>
-                        <h2>{promoProduct ? promoProduct.name : 'Combo Família'}</h2>
-                        <p>{promoProduct ? promoProduct.description : '20% OFF para matar a fome da galera!'}</p>
-                        <Link to={promoProduct ? `/produto/${promoProduct.id}` : '/catalogo'} className="btn btn-primary btn-cta" aria-label={`Pedir ${promoProduct ? promoProduct.name : 'Combo'} agora`}>
-                            PEDIR AGORA
+                {/* 1. Hero Slider (McD Style) */}
+                <HeroSlider />
+
+                {/* 2. Quick Actions (McD Tiles) */}
+                <section className="quick-actions-section">
+                    <div className="quick-action-grid">
+                        <Link to="/catalogo" className="quick-action-card qa-menu">
+                            <div className="qa-content">
+                                <h3>Peça e Retire</h3>
+                                <p>Fure a fila e pegue no balcão</p>
+                                <span className="qa-btn">Cardápio Completo</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&q=80" alt="Cardápio" className="qa-img" />
+                        </Link>
+
+                        <Link to="/login" className="quick-action-card qa-account">
+                            <div className="qa-content">
+                                <h3>Clube Rooster</h3>
+                                <p>Seus pedidos valem pontos!</p>
+                                <span className="qa-btn">Minha Conta</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=400&q=80" alt="Conta" className="qa-img" />
                         </Link>
                     </div>
-                    <div className="promo-image">
-                       <img 
-                           src={promoProduct ? promoProduct.image : "https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=500&q=80"} 
-                           alt={promoProduct ? promoProduct.name : "Combo Família"} 
-                       />
-                    </div>
-                </motion.section>
+                </section>
 
-                {/* 2. Categorias */}
-                <section className="home-section">
+                {/* 3. Categorias (Horizontal Scroll Strip) */}
+                <section className="home-section categories-section">
                     <div className="section-header">
-                        <h2>Categorias</h2>
-                        <Link to="/catalogo" className="see-all" aria-label="Ver todas as categorias">Ver todas <ArrowRight size={16}/></Link>
+                        <h2>O que você quer comer hoje?</h2>
                     </div>
                     <motion.div className="categories-grid" variants={containerVariants}>
                         {mainCategories.map(cat => (
@@ -93,10 +101,10 @@ const Home = () => {
                     </motion.div>
                 </section>
 
-                {/* 3. Mais Vendidos */}
+                {/* 4. Destaques / Cupom (Horizontal Scroll) */}
                 <section className="home-section">
                     <div className="section-header">
-                        <h2>⭐ Mais Vendidos</h2>
+                        <h2>⭐ Destaques da Semana</h2>
                     </div>
                     <motion.div className="best-sellers-list" variants={containerVariants}>
                         {bestSellers.map(product => (
@@ -116,17 +124,16 @@ const Home = () => {
                                 </Link>
                             </motion.div>
                         ))}
+                        
+                        {/* Fake Coupon Card in list for variety */}
+                         <motion.div className="best-seller-item coupon-item" variants={itemVariants}>
+                            <div className="bs-info">
+                                <h4>🎟 Cupom: ROSTHER10</h4>
+                                <p className="bs-price" style={{color: 'var(--color-success)'}}>10% OFF</p>
+                            </div>
+                         </motion.div>
                     </motion.div>
                 </section>
-
-                {/* 4. Cupom do Dia */}
-                <motion.section className="coupon-banner" variants={itemVariants} whileHover={{ scale: 1.02 }}>
-                   <div className="coupon-content">
-                       <h3>🎟 Cupom do Dia</h3>
-                       <div className="coupon-code">ROSTHER10</div>
-                       <p>10% de desconto em qualquer pedido</p>
-                   </div>
-                </motion.section>
             </div>
         </motion.div>
     );

@@ -462,6 +462,7 @@ export const mockOrders = [
     total: 73.9,
     status: "Pronto",
     time: "18:30",
+    type: "delivery",
   },
   {
     id: "#1025",
@@ -470,6 +471,7 @@ export const mockOrders = [
     total: 74.9,
     status: "Preparando",
     time: "19:15",
+    type: "pickup",
   },
   {
     id: "#1026",
@@ -478,6 +480,7 @@ export const mockOrders = [
     total: 31.8,
     status: "Recebido",
     time: "19:42",
+    type: "delivery",
   },
   {
     id: "#1027",
@@ -486,6 +489,7 @@ export const mockOrders = [
     total: 89.9,
     status: "Recebido",
     time: "19:45",
+    type: "pickup",
   },
 ];
 

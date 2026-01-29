@@ -149,6 +149,22 @@
     color: var(--color-primary);
 }
 
+.highlight-free {
+    color: var(--color-success);
+    font-size: 0.9em;
+    margin-left: 0.5rem;
+}
+
+.free-badge {
+    color: var(--color-success);
+    background: rgba(var(--color-success-rgb), 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
 .action-area {
     display: flex;
     flex-direction: column;

@@ -6,7 +6,7 @@ import './Header.css';
 
 import logo from '../../assets/logothehooster.png';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion'; // eslint-disable-line no-unused-vars
 // ... existing imports
 
 const Header = () => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Minus, Plus, ArrowLeft, Star } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
@@ -10,7 +10,6 @@ const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedExtras, setSelectedExtras] = useState([]);
 
@@ -21,14 +20,15 @@ const ProductDetails = () => {
     { id: 'bacon', name: 'Bacon Extra', price: 4.00 },
   ];
 
+  const product = useMemo(() => {
+      return products.find(p => p.id === parseInt(id));
+  }, [id]);
+
   useEffect(() => {
-    const found = products.find(p => p.id === parseInt(id));
-    if (found) {
-        setProduct(found);
-    } else {
+    if (!product) {
         navigate('/catalogo');
     }
-  }, [id, navigate]);
+  }, [product, navigate]);
 
   const handleExtraChange = (extraId) => {
     setSelectedExtras(prev => {
@@ -41,6 +41,7 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
+    if (!product) return;
     const extras = extrasOptions.filter(e => selectedExtras.includes(e.id));
     const finalProduct = {
         ...product,

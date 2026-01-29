@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { products, categories } from '../../services/mockData';
-import { useCart } from '../../contexts/CartContext';
+
 import { formatCurrency } from '../../utils/formatters';
 import './Home.css';
 
 const Home = () => {
-    const { addToCart } = useCart();
     
     // Mock data for UI
     const bestSellers = products.slice(0, 4);

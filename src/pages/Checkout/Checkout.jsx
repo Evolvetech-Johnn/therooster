@@ -1,9 +1,11 @@
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreditCard, Banknote, QrCode } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
 import { formatCurrency } from '../../utils/formatters';
 import './Checkout.css';
+import toast from 'react-hot-toast';
 
 const Checkout = () => {
   const { user, isAuthenticated } = useAuth();
@@ -13,11 +15,47 @@ const Checkout = () => {
   const [success, setSuccess] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('pix');
 
-// ... (Effect hooks same as before)
+  useEffect(() => {
+    if (!isAuthenticated) {
+        toast.error('Faça login para continuar');
+        navigate('/login');
+        return;
+    }
+    if (cartItems.length === 0 && !success) {
+        toast('Seu carrinho está vazio');
+        navigate('/catalogo');
+    }
+  }, [isAuthenticated, cartItems, navigate, success]);
 
-// ... (handleFinishOrder same as before)
+  const handleFinishOrder = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+        setLoading(false);
+        setSuccess(true);
+        clearCart();
+        toast.success('Pedido realizado com sucesso!');
+        // In a real app, you'd save the order to DB here
+    }, 2000);
+  };
 
-// ... (render success same as before)
+  if (success) {
+      return (
+          <div className="container checkout-page success-view">
+              <div className="success-card">
+                  <div className="success-icon">🎉</div>
+                  <h2>Pedido Confirmado!</h2>
+                  <p>Obrigado pela sua compra, {user?.name}.</p>
+                  <p>Seu pedido está sendo preparado com carinho.</p>
+                  <button className="btn btn-primary" onClick={() => navigate('/')}>
+                      Voltar ao Início
+                  </button>
+              </div>
+          </div>
+      );
+  }
 
   const deliveryFee = 5.00;
 

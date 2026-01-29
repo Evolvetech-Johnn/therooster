@@ -238,6 +238,12 @@
     object-fit: cover;
 }
 
+/* Drink Item Fix in Best Sellers */
+.item-drink .bs-image img {
+    object-fit: contain;
+    padding: 5px;
+}
+
 .bs-info {
     flex: 1;
 }

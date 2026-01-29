@@ -108,7 +108,7 @@ const Home = () => {
                     </div>
                     <motion.div className="best-sellers-list" variants={containerVariants}>
                         {bestSellers.map(product => (
-                            <motion.div key={product.id} className="best-seller-item" variants={itemVariants}>
+                            <motion.div key={product.id} className={`best-seller-item ${product.category === 'bebidas' ? 'item-drink' : ''}`} variants={itemVariants}>
                                 <div className="bs-image">
                                     <img src={product.image} alt={product.name} />
                                 </div>

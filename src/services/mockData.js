@@ -1,20 +1,41 @@
-import imgTiras from '../assets/tiras-frango-crocante.png';
-import imgBaldePequeno from '../assets/balde-pequeno-molho.png';
-import imgGaloMaluco from '../assets/combo-galo-maluco.jpg';
-import imgRoosterChicken from '../assets/rooster-chicken.jpg';
-import imgRoosterClassic from '../assets/rooster-classic.jpg';
-import imgRoosterDouble from '../assets/rooster-double.jpg';
-import imgCombo7 from '../assets/combo-7-em-1.jpg';
-import imgCombo8 from '../assets/combo-8-em-1.jpg';
-import img4Lanches from '../assets/4-lanches-no-precinho.jpg';
-import imgMegaCombo from '../assets/10-em-1-mega-combo.jpg';
-import imgBalde3Pessoas from '../assets/balde-3-pessoas.png';
-import imgBalde5Pessoas from '../assets/balde-5-pessoas.png';
-import imgTexasRooster from '../assets/hamburguer-texas-rooster.png';
-import imgComboCasal from '../assets/combo-balde-casal.png';
-import imgPolentaInd from '../assets/polenta-individual.png';
-import imgBatataInd from '../assets/batata-individual.png';
-import imgOnionInd from '../assets/onion-rings-individual.png';
+
+// Fallback placeholder
+const placeholderImg = 'https://images.unsplash.com/photo-1563897539633-7374c276c212?w=500&q=80';
+
+import imgTiras from '../assets/img-produtos/tiras-frango-crocante.png';
+import imgBaldePequeno from '../assets/img-produtos/balde-pequeno-molho.png';
+import imgGaloMaluco from '../assets/img-produtos/combo-galo-maluco.png';
+import imgTexasRooster from '../assets/img-produtos/hamburguer-texas-rooster.png';
+import imgTexasFit from '../assets/img-produtos/texas-fit.png';
+import imgComboInd from '../assets/img-produtos/combo-lanche-batata-refri.png';
+import img5em1 from '../assets/img-produtos/5-em-1-super-combo.png';
+import imgComboCasal from '../assets/img-produtos/combo-balde-casal.png';
+import imgBalde3Pessoas from '../assets/img-produtos/balde-3-pessoas-completo.png';
+import imgBalde5Pessoas from '../assets/img-produtos/balde-5-pessoas-completo.png';
+import imgPolentaInd from '../assets/img-produtos/polenta-individual.png';
+import imgBatataInd from '../assets/img-produtos/batata-individual.png';
+import imgOnionInd from '../assets/img-produtos/onion-rings-individual.png';
+import imgBaldeBatata from '../assets/img-produtos/balde-batata-frita.png';
+import imgBaldeOnion from '../assets/img-produtos/balde-onion-rings.png';
+import imgBaldePolenta from '../assets/img-produtos/balde-polenta-frita.png';
+import imgMolhoAlho from '../assets/img-produtos/molho-alho.png';
+import imgMolhoBacon from '../assets/img-produtos/molho-bacon.png';
+import imgMolhoBarbecue from '../assets/img-produtos/molho-barbecue.png';
+import imgMolhoMostarda from '../assets/img-produtos/molho-mostarda-mel.png';
+import imgMolhoGoiabada from '../assets/img-produtos/molho-goiabada-pimenta.png';
+import imgCoca350 from '../assets/img-produtos/coca-cola-350ml.png';
+import imgGuarana350 from '../assets/img-produtos/guarana-350ml.png';
+import imgFanta350 from '../assets/img-produtos/fanta-laranja-350ml.png';
+import imgCocaZero350 from '../assets/img-produtos/coca-zero-350ml.png';
+import imgSprite350 from '../assets/img-produtos/sprite-350ml.png';
+import imgCoca2L from '../assets/img-produtos/coca-cola-2l.png';
+import imgGuarana2L from '../assets/img-produtos/guarana-2l.png';
+import imgCocaZero2L from '../assets/img-produtos/coca-zero-2l.png';
+import imgCocaZero600 from '../assets/img-produtos/coca-zero-600ml.png';
+import imgHeineken from '../assets/img-produtos/cerveja-heineken-330ml.png';
+import imgSorvete from '../assets/img-produtos/sorvete.png';
+import imgComboFamiliaKids from '../assets/img-produtos/combo-familia-kids.png';
+import imgBaldeKids from '../assets/img-produtos/balde-kids.png';
 
 export const categories = [
   { id: 'todos', name: 'Todos' },
@@ -63,7 +84,7 @@ export const products = [
     description: 'Pão selado na manteiga, maionese caseira, 2 filés de sassami crocante, queijo cheddar.',
     price: 33.50,
     category: 'lanches',
-    image: imgRoosterChicken
+    image: placeholderImg
   },
   {
     id: 5,
@@ -71,7 +92,7 @@ export const products = [
     description: 'Pão selado, maionese de alho, 2 filés de sassami crocante, tomate e queijo cheddar.',
     price: 33.50,
     category: 'lanches',
-    image: imgRoosterClassic
+    image: placeholderImg
   },
   {
     id: 6,
@@ -79,7 +100,7 @@ export const products = [
     description: 'Tudo em dobro! Pão, maionese caseira, 2 sassamis, 2 cheddars, 2 bacons.',
     price: 35.50,
     category: 'lanches',
-    image: imgRoosterDouble
+    image: placeholderImg
   },
 
   // --- COMBOS ---
@@ -89,7 +110,7 @@ export const products = [
     description: '2 lanches + 2 sassami + 1 batata frita + 1 refri 600ml + 1 molho.',
     price: 105.70,
     category: 'combos',
-    image: imgCombo7
+    image: placeholderImg
   },
   {
     id: 8,
@@ -97,7 +118,7 @@ export const products = [
     description: '2 lanches + 4 tiras de Frango + 2 molhos a sua escolha.',
     price: 89.70,
     category: 'combos',
-    image: imgCombo8
+    image: placeholderImg
   },
   {
     id: 9,
@@ -105,7 +126,7 @@ export const products = [
     description: 'Você escolhe os seus 4 lanches favoritos!',
     price: 97.70,
     category: 'combos',
-    image: img4Lanches
+    image: placeholderImg
   },
   {
     id: 10,
@@ -113,7 +134,7 @@ export const products = [
     description: '4 tiras de Sassami + 2 lanches + 2 refri 350ml + 1 Batata Frita + 1 molho.',
     price: 112.50,
     category: 'combos',
-    image: imgMegaCombo
+    image: placeholderImg
   },
 
   // --- BALDES ---
@@ -149,7 +170,7 @@ export const products = [
     description: 'Pão Brioche, Maionese caseira, alface, tomate, cebola roxa, 2 Sassami crocante.',
     price: 41.70,
     category: 'lanches',
-    image: 'https://images.unsplash.com/photo-1606754756283-ffc7cd666575?w=500&q=80'
+    image: imgTexasFit
   },
 
   // --- COMBOS PREMIUM ---
@@ -159,7 +180,7 @@ export const products = [
     description: 'Lanche + Batata Frita Individual + Refri Lata 350ml + sachês.',
     price: 66.70,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&q=80'
+    image: imgComboInd
   },
   {
     id: 16,
@@ -167,7 +188,7 @@ export const products = [
     description: '1 Lanche + 3 Tiras de Frango + Batata + Refri + Molho.',
     price: 75.70,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1512427691650-2ecf4b6c79a9?w=500&q=80'
+    image: img5em1
   },
   {
     id: 17,
@@ -183,7 +204,7 @@ export const products = [
     description: 'Balde Médio + Porção (Batata ou Polenta) + Refri 350ml + 2 Molhos.',
     price: 95.70,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1606754756283-ffc7cd666575?w=500&q=80'
+    image: imgBalde3Pessoas // Reusing image
   },
   {
     id: 19,
@@ -191,7 +212,7 @@ export const products = [
     description: 'Balde Grande + Polenta Ind. + Batata Ind. + 3 Molhos + Coca 2L.',
     price: 149.90,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&q=80'
+    image: imgBalde5Pessoas // Reusing image
   },
 
   // --- PORÇÕES ---
@@ -225,7 +246,7 @@ export const products = [
     description: 'Ideal para 3 pessoas.',
     price: 39.90,
     category: 'porcoes',
-    image: 'https://images.unsplash.com/photo-1585109649139-3668018951a7?w=500&q=80'
+    image: imgBaldeBatata
   },
   {
     id: 24,
@@ -233,7 +254,7 @@ export const products = [
     description: 'Anéis de cebola empanados.',
     price: 39.99,
     category: 'porcoes',
-    image: 'https://images.unsplash.com/photo-1619860860774-1e2e17343432?w=500&q=80'
+    image: imgBaldeOnion
   },
   {
     id: 25,
@@ -241,7 +262,7 @@ export const products = [
     description: 'Sequinha e crocante, serve 3.',
     price: 39.99,
     category: 'porcoes',
-    image: 'https://images.unsplash.com/photo-1534938665420-4193effeacc4?w=500&q=80'
+    image: imgBaldePolenta
   },
 
   // --- MOLHOS ---
@@ -251,7 +272,7 @@ export const products = [
     description: 'Famoso Molho de Alho da The Rooster.',
     price: 7.00,
     category: 'molhos',
-    image: 'https://images.unsplash.com/photo-1472476443507-ebd90dc1a9b7?w=500&q=80'
+    image: imgMolhoAlho
   },
   {
     id: 27,
@@ -259,7 +280,7 @@ export const products = [
     description: 'Delicioso molho de Bacon com sabor incomparável.',
     price: 7.00,
     category: 'molhos',
-    image: 'https://images.unsplash.com/photo-1585238342070-61e1e768b1ff?w=500&q=80'
+    image: imgMolhoBacon
   },
   {
     id: 28,
@@ -267,7 +288,7 @@ export const products = [
     description: 'Lendário Molho de Barbecue.',
     price: 7.00,
     category: 'molhos',
-    image: 'https://images.unsplash.com/photo-1623341214823-6627581358c5?w=500&q=80'
+    image: imgMolhoBarbecue
   },
   {
     id: 29,
@@ -275,7 +296,7 @@ export const products = [
     description: 'Combinação perfeita... Experimente!',
     price: 7.00,
     category: 'molhos',
-    image: 'https://images.unsplash.com/photo-1596450519634-c2d27ad5982c?w=500&q=80'
+    image: imgMolhoMostarda
   },
   {
     id: 30,
@@ -283,7 +304,7 @@ export const products = [
     description: 'A mistura do doce com o toque da pimenta.',
     price: 7.00,
     category: 'molhos',
-    image: 'https://images.unsplash.com/photo-1581452918880-99905c24e93c?w=500&q=80'
+    image: imgMolhoGoiabada
   },
 
   // --- BEBIDAS ---
@@ -293,7 +314,7 @@ export const products = [
     description: 'Lata super gelada.',
     price: 8.00,
     category: 'bebidas',
-    image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&q=80'
+    image: imgCoca350
   },
   {
     id: 32,
@@ -301,7 +322,7 @@ export const products = [
     description: 'Lata.',
     price: 8.00,
     category: 'bebidas',
-    image: 'https://images.unsplash.com/photo-1579630528229-45c1a70014b2?w=500&q=80'
+    image: imgGuarana350
   },
   {
     id: 33,
@@ -309,7 +330,7 @@ export const products = [
     description: 'Lata.',
     price: 8.00,
     category: 'bebidas',
-    image: 'https://images.unsplash.com/photo-1624517452488-04869289c4ca?w=500&q=80'
+    image: imgFanta350
   },
   {
     id: 34,
@@ -317,7 +338,7 @@ export const products = [
     description: 'Lata.',
     price: 8.00,
     category: 'bebidas',
-    image: 'https://images.unsplash.com/photo-1549753173-0db107a67cb4?w=500&q=80'
+    image: imgCocaZero350
   },
   {
     id: 35,
@@ -325,7 +346,7 @@ export const products = [
     description: 'Lata.',
     price: 8.00,
     category: 'bebidas',
-    image: 'https://images.unsplash.com/photo-1625772299848-391b6a78de83?w=500&q=80'
+    image: imgSprite350
   },
   {
     id: 36,
@@ -333,7 +354,7 @@ export const products = [
     description: 'Garrafa.',
     price: 18.50,
     category: 'bebidas',
-    image: 'https://images.unsplash.com/photo-1554988775-520a7b0553db?w=500&q=80'
+    image: imgCoca2L
   },
   {
     id: 37,
@@ -341,7 +362,7 @@ export const products = [
     description: 'Garrafa.',
     price: 17.00,
     category: 'bebidas',
-    image: 'https://images.unsplash.com/photo-1605232840615-56549a0a0397?w=500&q=80'
+    image: imgGuarana2L
   },
   {
     id: 38,
@@ -349,7 +370,7 @@ export const products = [
     description: 'Garrafa.',
     price: 14.00,
     category: 'bebidas',
-    image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&q=80'
+    image: imgCocaZero600 // Re-using, or check 2L? No, 600ml
   },
   {
     id: 39,
@@ -357,7 +378,7 @@ export const products = [
     description: 'Long neck. (Para maiores de 18 anos)',
     price: 13.00,
     category: 'bebidas',
-    image: 'https://images.unsplash.com/photo-1618885472179-4e2621434c26?w=500&q=80'
+    image: imgHeineken
   },
 
   // --- SOBREMESAS ---
@@ -367,7 +388,7 @@ export const products = [
     description: 'Deliciosa sobremesa refrescante.',
     price: 12.00,
     category: 'sobremesas',
-    image: 'https://images.unsplash.com/photo-1579954115563-e72bf1381629?w=500&q=80'
+    image: imgSorvete
   },
 
   // --- KIDS e Outros ---
@@ -377,7 +398,7 @@ export const products = [
     description: 'Balde Grande + 2 porções + Balde Kids (Batata/Nuggets) + 5 molhos + Refri 2L.',
     price: 185.90,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1513639776629-7b611594e29b?w=500&q=80'
+    image: imgComboFamiliaKids
   },
   {
     id: 42,
@@ -385,7 +406,7 @@ export const products = [
     description: 'Balde com batata e nuggets, pensado para crianças.',
     price: 29.90,
     category: 'kids',
-    image: 'https://images.unsplash.com/photo-1563897539633-7374c276c212?w=500&q=80'
+    image: imgBaldeKids
   }
 ];
 

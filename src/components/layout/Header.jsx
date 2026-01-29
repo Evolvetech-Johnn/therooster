@@ -4,7 +4,7 @@ import { ShoppingBag, User, Menu } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
 import './Header.css';
 
-import logo from '../../assets/logothehooster.png';
+import logo from '../../assets/the-rooster.webp';
 
 import { AnimatePresence, motion } from 'framer-motion'; // eslint-disable-line no-unused-vars
 // ... existing imports

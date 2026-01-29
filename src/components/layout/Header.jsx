@@ -1,113 +1,201 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { ShoppingBag, User, Menu } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ShoppingBag, User, Menu, X, MapPin, Clock } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
-import "./Header.css";
+import { AnimatePresence, motion as Motion } from "framer-motion"; // Animation components
 import logoImg from "../../assets/logotherooster.png";
-
-const logo = logoImg;
-
-import { AnimatePresence, motion } from "framer-motion"; // eslint-disable-line no-unused-vars
-// ... existing imports
+import "./Header.css";
 
 const Header = () => {
   const { totalItems } = useCart();
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpenNow, setIsOpenNow] = useState(false);
+  const location = useLocation();
+
+  // Scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Time check for "Open Now"
+  useEffect(() => {
+    const checkTime = () => {
+      const now = new Date();
+      const hour = now.getHours();
+      // Example: Open from 18:00 to 23:59
+      setIsOpenNow(hour >= 18 && hour <= 23);
+    };
+    checkTime();
+    const interval = setInterval(checkTime, 60000); // Check every minute
+    return () => clearInterval(interval);
+  }, []);
+
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="header">
-      <div className="container header-container">
-        {/* ... Logo ... */}
-        <div className="header-logo">
-          <Link to="/">
-            <img
-              src={logo}
-              alt="The Rooster - Frango no Balde"
-              className="logo-img"
-            />
-          </Link>
+    <>
+      <div className={`header-wrapper ${isScrolled ? "scrolled" : ""}`}>
+        {/* Top Bar for Status */}
+        <div className="top-bar">
+          <div className="container top-bar-content">
+            <div
+              className={`status-indicator ${isOpenNow ? "open" : "closed"}`}
+            >
+              <Clock size={14} />
+              <span>
+                {isOpenNow ? "Aberto Agora" : "Fechado (Abre às 18:00)"}
+              </span>
+            </div>
+            <div className="location-indicator">
+              <MapPin size={14} />
+              <span>
+                Delivery em <strong>Indaiatuba-SP</strong>
+              </span>
+            </div>
+          </div>
         </div>
 
-        {/* Desktop Nav */}
-        <nav className="header-nav">
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
-          <Link to="/catalogo" className="nav-link">
-            Cardápio
-          </Link>
-          <Link to="/promocoes" className="nav-link">
-            Promoções
-          </Link>
-        </nav>
+        <header className="main-header">
+          <div className="container header-container">
+            {/* Logo Section */}
+            <div className="header-logo">
+              <Link to="/">
+                <div className="logo-glow"></div>
+                <img src={logoImg} alt="The Rooster" className="logo-img" />
+              </Link>
+            </div>
 
-        {/* Actions */}
-        <div className="header-actions">
-          <Link to="/login" className="action-btn" aria-label="Login">
-            <User size={24} />
-          </Link>
-          <Link
-            to="/carrinho"
-            className="action-btn cart-btn"
-            aria-label="Carrinho"
-          >
-            <ShoppingBag size={24} />
-            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
-          </Link>
-          <button
-            className="mobile-menu-btn"
-            aria-label="Menu"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <Menu size={24} />
-          </button>
-        </div>
+            {/* Desktop Navigation */}
+            <nav className="header-nav">
+              <Link
+                to="/"
+                className={`nav-link ${isActive("/") ? "active" : ""}`}
+              >
+                Home
+                {isActive("/") && (
+                  <Motion.div layoutId="underline" className="nav-underline" />
+                )}
+              </Link>
+              <Link
+                to="/catalogo"
+                className={`nav-link ${isActive("/catalogo") ? "active" : ""}`}
+              >
+                Cardápio
+                {isActive("/catalogo") && (
+                  <Motion.div layoutId="underline" className="nav-underline" />
+                )}
+              </Link>
+              <Link
+                to="/promocoes"
+                className={`nav-link ${isActive("/promocoes") ? "active" : ""}`}
+              >
+                Promoções
+                {isActive("/promocoes") && (
+                  <Motion.div layoutId="underline" className="nav-underline" />
+                )}
+              </Link>
+            </nav>
+
+            {/* Actions Section */}
+            <div className="header-actions">
+              <Link
+                to="/login"
+                className="action-btn icon-btn"
+                aria-label="Minha Conta"
+                title="Minha Conta"
+              >
+                <User size={22} />
+              </Link>
+
+              <Link
+                to="/carrinho"
+                className="action-btn icon-btn cart-btn"
+                aria-label="Carrinho"
+              >
+                <ShoppingBag size={22} />
+                <AnimatePresence>
+                  {totalItems > 0 && (
+                    <Motion.span
+                      className="cart-badge"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                    >
+                      {totalItems}
+                    </Motion.span>
+                  )}
+                </AnimatePresence>
+              </Link>
+
+              <button
+                className="mobile-menu-btn"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Menu"
+              >
+                {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              </button>
+            </div>
+          </div>
+        </header>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            className="mobile-menu"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+          <Motion.div
+            className="mobile-menu-overlay"
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
           >
+            <div className="mobile-menu-header">
+              <h3>Menu</h3>
+              <button onClick={() => setIsMenuOpen(false)}>
+                <X size={28} />
+              </button>
+            </div>
+
             <nav className="mobile-nav-links">
               <Link
                 to="/"
-                className="mobile-link"
                 onClick={() => setIsMenuOpen(false)}
+                className={isActive("/") ? "active" : ""}
               >
                 Home
               </Link>
               <Link
                 to="/catalogo"
-                className="mobile-link"
                 onClick={() => setIsMenuOpen(false)}
+                className={isActive("/catalogo") ? "active" : ""}
               >
                 Cardápio
               </Link>
               <Link
                 to="/promocoes"
-                className="mobile-link"
                 onClick={() => setIsMenuOpen(false)}
+                className={isActive("/promocoes") ? "active" : ""}
               >
                 Promoções
               </Link>
+              <div className="mobile-divider"></div>
               <Link
                 to="/login"
-                className="mobile-link"
                 onClick={() => setIsMenuOpen(false)}
+                className="mobile-action"
               >
-                Minha Conta
+                <User size={20} /> Minha Conta
               </Link>
             </nav>
-          </motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 };
 

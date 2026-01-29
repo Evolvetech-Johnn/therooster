@@ -31,7 +31,13 @@ const Header = () => {
         {/* Desktop Nav */}
         <nav className="header-nav">
           <Link to="/" className="nav-link">
-            Cardápio Completo
+            Home
+          </Link>
+          <Link to="/catalogo" className="nav-link">
+            Cardápio
+          </Link>
+          <Link to="/promocoes" className="nav-link">
+            Promoções
           </Link>
         </nav>
 
@@ -74,7 +80,21 @@ const Header = () => {
                 className="mobile-link"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Cardápio Completo
+                Home
+              </Link>
+              <Link
+                to="/catalogo"
+                className="mobile-link"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Cardápio
+              </Link>
+              <Link
+                to="/promocoes"
+                className="mobile-link"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Promoções
               </Link>
               <Link
                 to="/login"

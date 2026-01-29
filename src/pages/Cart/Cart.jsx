@@ -43,7 +43,7 @@ const Cart = () => {
       <div className="container cart-empty">
         <h2>Seu carrinho está vazio 🍗</h2>
         <p>Que tal adicionar algumas delícias?</p>
-        <Link to="/" className="btn btn-primary">
+        <Link to="/catalogo" className="btn btn-primary">
           Ver Cardápio
         </Link>
       </div>
@@ -163,7 +163,7 @@ const Cart = () => {
             Finalizar Pedido
           </button>
 
-          <Link to="/" className="continue-shopping">
+          <Link to="/catalogo" className="continue-shopping">
             <ArrowLeft size={16} /> Continuar Comprando
           </Link>
         </div>

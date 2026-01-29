@@ -13,7 +13,7 @@ const Cart = () => {
   const [couponMessage, setCouponMessage] = useState('');
 
   const handleApplyCoupon = () => {
-      if (couponCode.toUpperCase() === 'ROSTHER10') {
+      if (couponCode.toUpperCase() === 'ROOSTER10') {
           setDiscount(subtotal * 0.1);
           setCouponMessage({ type: 'success', text: 'Cupom aplicado com sucesso!' });
       } else if (couponCode.trim() === '') {

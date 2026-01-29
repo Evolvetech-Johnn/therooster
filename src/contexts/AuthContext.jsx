@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 800));
 
-    if (email === 'admin@roster.com' && password === 'admin') {
+    if (email === 'admin@rooster.com' && password === 'admin') {
       const adminUser = { id: 1, name: 'Admin', email, role: 'admin' };
       setUser(adminUser);
       localStorage.setItem('theRoosterUser', JSON.stringify(adminUser));

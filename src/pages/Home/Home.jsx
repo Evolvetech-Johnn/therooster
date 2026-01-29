@@ -128,7 +128,7 @@ const Home = () => {
                         {/* Fake Coupon Card in list for variety */}
                          <motion.div className="best-seller-item coupon-item" variants={itemVariants}>
                             <div className="bs-info">
-                                <h4>🎟 Cupom: ROSTHER10</h4>
+                                <h4>🎟 Cupom: ROOSTER10</h4>
                                 <p className="bs-price" style={{color: 'var(--color-success)'}}>10% OFF</p>
                             </div>
                          </motion.div>

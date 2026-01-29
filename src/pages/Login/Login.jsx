@@ -57,8 +57,8 @@ const Login = () => {
         </form>
         <div className="login-footer">
             <p>Não tem conta? <Link to="/cadastro">Cadastre-se</Link></p>
-            <p className="hint">Admin: admin@roster.com / admin</p>
-            <p className="hint">Cliente: qualquer / 123456</p>
+            <p className="hint">Admin: admin@rooster.com / admin</p>
+            <p className="hint">Cliente: cliente@rooster.com / cliente</p>
         </div>
       </div>
     </div>

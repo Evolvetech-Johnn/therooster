@@ -1,3 +1,21 @@
+import imgTiras from '../assets/tiras-frango-crocante.png';
+import imgBaldePequeno from '../assets/balde-pequeno-molho.png';
+import imgGaloMaluco from '../assets/combo-galo-maluco.jpg';
+import imgRoosterChicken from '../assets/rooster-chicken.jpg';
+import imgRoosterClassic from '../assets/rooster-classic.jpg';
+import imgRoosterDouble from '../assets/rooster-double.jpg';
+import imgCombo7 from '../assets/combo-7-em-1.jpg';
+import imgCombo8 from '../assets/combo-8-em-1.jpg';
+import img4Lanches from '../assets/4-lanches-no-precinho.jpg';
+import imgMegaCombo from '../assets/10-em-1-mega-combo.jpg';
+import imgBalde3Pessoas from '../assets/balde-3-pessoas.png';
+import imgBalde5Pessoas from '../assets/balde-5-pessoas.png';
+import imgTexasRooster from '../assets/hamburguer-texas-rooster.png';
+import imgComboCasal from '../assets/combo-balde-casal.png';
+import imgPolentaInd from '../assets/polenta-individual.png';
+import imgBatataInd from '../assets/batata-individual.png';
+import imgOnionInd from '../assets/onion-rings-individual.png';
+
 export const categories = [
   { id: 'todos', name: 'Todos' },
   { id: 'baldes', name: 'Baldes' },
@@ -18,7 +36,7 @@ export const products = [
     description: '4 tiras de frango extra Crocante, com um tempero inconfundível + Molho de brinde!',
     price: 26.70,
     category: 'porcoes',
-    image: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&q=80'
+    image: imgTiras
   },
   {
     id: 2,
@@ -26,7 +44,7 @@ export const products = [
     description: 'Frango Crocante, sequinho e delicioso. Ideal para 1 pessoa + 1 molho.',
     price: 58.70,
     category: 'baldes',
-    image: 'https://images.unsplash.com/photo-1563897539633-7374c276c212?w=500&q=80'
+    image: imgBaldePequeno
   },
   {
     id: 3,
@@ -35,7 +53,7 @@ export const products = [
     price: 59.90,
     originalPrice: 77.90,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1594007731854-5cddb6932152?w=500&q=80'
+    image: imgGaloMaluco
   },
 
   // --- LANCHES EXCLUSIVOS ---
@@ -45,7 +63,7 @@ export const products = [
     description: 'Pão selado na manteiga, maionese caseira, 2 filés de sassami crocante, queijo cheddar.',
     price: 33.50,
     category: 'lanches',
-    image: 'https://images.unsplash.com/photo-1623653387945-2fd25214f8fc?w=500&q=80'
+    image: imgRoosterChicken
   },
   {
     id: 5,
@@ -53,7 +71,7 @@ export const products = [
     description: 'Pão selado, maionese de alho, 2 filés de sassami crocante, tomate e queijo cheddar.',
     price: 33.50,
     category: 'lanches',
-    image: 'https://images.unsplash.com/photo-1615557960916-5f4791effe9d?w=500&q=80'
+    image: imgRoosterClassic
   },
   {
     id: 6,
@@ -61,7 +79,7 @@ export const products = [
     description: 'Tudo em dobro! Pão, maionese caseira, 2 sassamis, 2 cheddars, 2 bacons.',
     price: 35.50,
     category: 'lanches',
-    image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=500&q=80'
+    image: imgRoosterDouble
   },
 
   // --- COMBOS ---
@@ -71,7 +89,7 @@ export const products = [
     description: '2 lanches + 2 sassami + 1 batata frita + 1 refri 600ml + 1 molho.',
     price: 105.70,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500&q=80'
+    image: imgCombo7
   },
   {
     id: 8,
@@ -79,7 +97,7 @@ export const products = [
     description: '2 lanches + 4 tiras de Frango + 2 molhos a sua escolha.',
     price: 89.70,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80'
+    image: imgCombo8
   },
   {
     id: 9,
@@ -87,7 +105,7 @@ export const products = [
     description: 'Você escolhe os seus 4 lanches favoritos!',
     price: 97.70,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1596662951482-0c4ba74a6df6?w=500&q=80'
+    image: img4Lanches
   },
   {
     id: 10,
@@ -95,7 +113,7 @@ export const products = [
     description: '4 tiras de Sassami + 2 lanches + 2 refri 350ml + 1 Batata Frita + 1 molho.',
     price: 112.50,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1541592106381-b31e9674c96a?w=500&q=80'
+    image: imgMegaCombo
   },
 
   // --- BALDES ---
@@ -105,7 +123,7 @@ export const products = [
     description: 'Frango estilo Americano, crocante e suculento. Serve 3 pessoas. (Acompanha 2 molhos)',
     price: 85.70,
     category: 'baldes',
-    image: 'https://images.unsplash.com/photo-1563897539633-7374c276c212?w=500&q=80'
+    image: imgBalde3Pessoas
   },
   {
     id: 12,
@@ -113,7 +131,7 @@ export const products = [
     description: 'Muita crocância! Serve 5 pessoas e leva 3 molhos de brinde.',
     price: 105.70,
     category: 'baldes',
-    image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500&q=80'
+    image: imgBalde5Pessoas
   },
 
   // --- LANCHES PREMIUM ---
@@ -123,7 +141,7 @@ export const products = [
     description: 'Pão, molho, alface, frango, Catupiry, queijo cheddar e bacon.',
     price: 42.70,
     category: 'lanches',
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80'
+    image: imgTexasRooster
   },
   {
     id: 14,
@@ -157,7 +175,7 @@ export const products = [
     description: 'Balde pequeno + Refri Lata + Porção (Batata ou Polenta) + 2 Molhos.',
     price: 69.70,
     category: 'combos',
-    image: 'https://images.unsplash.com/photo-1562967963-ed7858776c96?w=500&q=80'
+    image: imgComboCasal
   },
   {
     id: 18,
@@ -183,7 +201,7 @@ export const products = [
     description: 'Polenta Frita Saborosa e Crocante.',
     price: 23.70,
     category: 'porcoes',
-    image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500&q=80'
+    image: imgPolentaInd
   },
   {
     id: 21,
@@ -191,7 +209,7 @@ export const products = [
     description: '180g de Batata Frita Crocante e sequinha.',
     price: 23.70,
     category: 'porcoes',
-    image: 'https://images.unsplash.com/photo-1573080496987-fad718485112?w=500&q=80'
+    image: imgBatataInd
   },
   {
     id: 22,
@@ -199,7 +217,7 @@ export const products = [
     description: 'Cebola Empanada sequinha e saborosa.',
     price: 23.70,
     category: 'porcoes',
-    image: 'https://images.unsplash.com/photo-1639024471283-03518883512d?w=500&q=80'
+    image: imgOnionInd
   },
   {
     id: 23,
@@ -371,7 +389,7 @@ export const products = [
   }
 ];
 
-// --- ADMIN MOCK DATA (Updated to reflect new items randomly) ---
+// --- ADMIN MOCK DATA ---
 
 export const mockOrders = [
     { id: '#1024', customer: 'João Silva', items: '1x Balde Clássico, 2x Coca-Cola', total: 73.90, status: 'Pronto', time: '18:30' },

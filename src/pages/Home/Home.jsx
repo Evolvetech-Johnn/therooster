@@ -12,6 +12,7 @@ const Home = () => {
     // Mock data for UI
     const bestSellers = products.slice(0, 4);
     const mainCategories = categories.filter(c => c.id !== 'todos');
+    const promoProduct = products.find(p => p.id === 19) || products[0];
 
     // Animation Variants
     const containerVariants = {
@@ -45,14 +46,17 @@ const Home = () => {
                 <motion.section className="promo-banner" variants={itemVariants}>
                     <div className="promo-content">
                         <span className="promo-badge">Oferta do Dia</span>
-                        <h2>Combo Família</h2>
-                        <p>20% OFF para matar a fome da galera!</p>
-                        <Link to="/catalogo" className="btn btn-primary btn-cta">
+                        <h2>{promoProduct ? promoProduct.name : 'Combo Família'}</h2>
+                        <p>{promoProduct ? promoProduct.description : '20% OFF para matar a fome da galera!'}</p>
+                        <Link to={promoProduct ? `/produto/${promoProduct.id}` : '/catalogo'} className="btn btn-primary btn-cta" aria-label={`Pedir ${promoProduct ? promoProduct.name : 'Combo'} agora`}>
                             PEDIR AGORA
                         </Link>
                     </div>
                     <div className="promo-image">
-                       <img src="https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=500&q=80" alt="Combo Família" />
+                       <img 
+                           src={promoProduct ? promoProduct.image : "https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=500&q=80"} 
+                           alt={promoProduct ? promoProduct.name : "Combo Família"} 
+                       />
                     </div>
                 </motion.section>
 
@@ -60,12 +64,12 @@ const Home = () => {
                 <section className="home-section">
                     <div className="section-header">
                         <h2>Categorias</h2>
-                        <Link to="/catalogo" className="see-all">Ver todas <ArrowRight size={16}/></Link>
+                        <Link to="/catalogo" className="see-all" aria-label="Ver todas as categorias">Ver todas <ArrowRight size={16}/></Link>
                     </div>
                     <motion.div className="categories-grid" variants={containerVariants}>
                         {mainCategories.map(cat => (
                             <motion.div key={cat.id} variants={itemVariants}>
-                                <Link to={`/catalogo?cat=${cat.id}`} className="category-card">
+                                <Link to={`/catalogo?cat=${cat.id}`} className="category-card" aria-label={`Categoria ${cat.name}`}>
                                     <span>{cat.name}</span>
                                 </Link>
                             </motion.div>
@@ -91,7 +95,7 @@ const Home = () => {
                                         <Star size={12} fill="var(--color-primary)" stroke="none" /> 4.8
                                     </div>
                                 </div>
-                                <Link to={`/produto/${product.id}`} className="btn btn-outline btn-sm btn-icon">
+                                <Link to={`/produto/${product.id}`} className="btn btn-outline btn-sm btn-icon" aria-label={`Ver detalhes de ${product.name}`}>
                                     +
                                 </Link>
                             </motion.div>

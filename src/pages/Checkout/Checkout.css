@@ -1,0 +1,104 @@
+.checkout-page {
+  padding: 2rem 0;
+  max-width: 600px;
+}
+
+.checkout-page h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--color-primary);
+}
+
+.checkout-form {
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-accent);
+}
+
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.form-section h3 {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-accent);
+  color: var(--text-main);
+}
+
+/* Payment Grid - Visual Selection */
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.payment-card {
+    background: var(--bg-hover);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-secondary);
+}
+
+.payment-card:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.payment-card.selected {
+    background: var(--bg-card-light);
+    border-color: var(--color-primary);
+    color: var(--color-secondary); /* Dark text on cream background */
+    box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.order-summary-mini {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: var(--bg-hover);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--color-accent);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.summary-row.total {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-accent);
+    color: var(--text-main);
+    font-size: 1.25rem;
+}
+
+.btn-lg {
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+.checkout-success {
+    text-align: center;
+    padding: 5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.success-icon {
+    font-size: 4rem;
+}

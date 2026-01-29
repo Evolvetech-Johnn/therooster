@@ -2,37 +2,49 @@
 const placeholderImg =
   "https://images.unsplash.com/photo-1563897539633-7374c276c212?w=500&q=80";
 
-import imgTiras from "../assets/img-produtos/Rooster Chicken.png";
-import imgBaldePequeno from "../assets/img-produtos/Balde Pequeno + 2 Molho Grátis.png";
-import imgGaloMaluco from "../assets/img-produtos/Rooster double.png";
+// --- Product Images Imports ---
 
-// New Imports for formerly missing products
+// Lanches
 import imgRoosterChicken from "../assets/img-produtos/Rooster Chicken.png";
 import imgRoosterClassic from "../assets/img-produtos/Rooster Classic.png";
 import imgRoosterDouble from "../assets/img-produtos/Rooster double.png";
+import imgTexasRooster from "../assets/img-produtos/Hamburguer Texas Rooster.png";
+import imgTexasFit from "../assets/img-produtos/Texas Fit.png";
+
+// Baldes
+import imgBaldePequeno from "../assets/img-produtos/Balde Pequeno + 2 Molho Grátis.png";
+import imgBalde3Pessoas from "../assets/img-produtos/Balde para 3 Pessoas + 2 molhos Grátis.png";
+import imgBalde5Pessoas from "../assets/img-produtos/Balde de Frango Para 5 Pessoas + 3 molhos Grátis.png";
+
+// Combos
+import imgComboGaloMaluco from "../assets/img-produtos/Rooster double.png"; // Fallback as requested in previous state
 import imgCombo7 from "../assets/img-produtos/7 em 1 - Exclusivo.png";
 import imgCombo8 from "../assets/img-produtos/8 em 1 - Combo.png";
 import img4Lanches from "../assets/img-produtos/4 Lanches no Precinho.png";
 import imgMegaCombo from "../assets/img-produtos/10 em 1 - Famoso Mega Combo.png";
-
-import imgTexasRooster from "../assets/img-produtos/Hamburguer Texas Rooster.png";
-import imgTexasFit from "../assets/img-produtos/Texas Fit.png";
 import imgComboInd from "../assets/img-produtos/Combo Lanche - Batata Frita - Refri Lata.png";
 import img5em1 from "../assets/img-produtos/5 EM 1 SUPER COMBO.png";
 import imgComboCasal from "../assets/img-produtos/Combo Para 2 pessoas - Balde pequeno + Refri + Porção fritas + 2 Molhos.png";
-import imgBalde3Pessoas from "../assets/img-produtos/Balde Para 3 pessoas + Porção Ind.+ Refri + 2 Molho Gratis.png";
-import imgBalde5Pessoas from "../assets/img-produtos/Balde Para 5 pessoas + Batata + Polenta + Refri 2litros + 3 molhos Gratís.png";
+import imgComboMedio from "../assets/img-produtos/Balde Para 3 pessoas + Porção Ind.+ Refri + 2 Molho Gratis.png";
+import imgComboFamiliaReal from "../assets/img-produtos/Balde Para 5 pessoas + Batata + Polenta + Refri 2litros + 3 molhos Gratís.png";
+import imgComboFamiliaKids from "../assets/img-produtos/Combo tamanho família irresistível mais uma novidade balde Kids pras crianças.png";
+
+// Porções
 import imgPolentaInd from "../assets/img-produtos/Polenta Individual.png";
 import imgBatataInd from "../assets/img-produtos/Batata Individual.png";
 import imgOnionInd from "../assets/img-produtos/Onion Rings Individual.png";
 import imgBaldeBatata from "../assets/img-produtos/Balde de Batata Frita.png";
 import imgBaldeOnion from "../assets/img-produtos/Balde de Onion Rings Rooster.png";
 import imgBaldePolenta from "../assets/img-produtos/Balde de Polenta Frita crocante.png";
+
+// Molhos
 import imgMolhoAlho from "../assets/img-produtos/Alho.png";
 import imgMolhoBacon from "../assets/img-produtos/Molho de Bacon.png";
 import imgMolhoBarbecue from "../assets/img-produtos/Molho de Barbecue.png";
 import imgMolhoMostarda from "../assets/img-produtos/Mostarda e Mel.png";
 import imgMolhoGoiabada from "../assets/img-produtos/Goiabada com Pimenta.png";
+
+// Bebidas
 import imgCoca350 from "../assets/img-produtos/Coca cola 350 ml.png";
 import imgGuarana350 from "../assets/img-produtos/Guaraná Antartica 350ml.png";
 import imgFanta350 from "../assets/img-produtos/Fanta Laranja 350ml.png";
@@ -43,8 +55,9 @@ import imgGuarana2L from "../assets/img-produtos/Guaraná Antártica 2 Litros.pn
 import imgCocaZero2L from "../assets/img-produtos/Refrigerante Coca Cola Zero Açucares 2l.png";
 import imgCocaZero600 from "../assets/img-produtos/Coca Zero 600ml.png";
 import imgHeineken from "../assets/img-produtos/Cerveja Heineken 330ml.png";
-import imgSorvete from "../assets/img-produtos/SORVETE.png";
-import imgComboFamiliaKids from "../assets/img-produtos/Combo tamanho família irresistível mais uma novidade balde Kids pras crianças.png";
+
+// Sobremesas & Kids
+import imgSorvete from "../assets/img-produtos/sorvete.png";
 import imgBaldeKids from "../assets/img-produtos/Balde Kids pras crianças.png";
 
 export const categories = [
@@ -68,7 +81,7 @@ export const products = [
       "4 tiras de frango extra Crocante, com um tempero inconfundível + Molho de brinde!",
     price: 26.7,
     category: "porcoes",
-    image: imgTiras,
+    image: imgRoosterChicken, // Using generic chicken image as specific one not found
   },
   {
     id: 2,
@@ -87,7 +100,7 @@ export const products = [
     price: 59.9,
     originalPrice: 77.9,
     category: "combos",
-    image: imgGaloMaluco,
+    image: imgComboGaloMaluco,
   },
 
   // --- LANCHES EXCLUSIVOS ---
@@ -228,7 +241,7 @@ export const products = [
       "Balde Médio + Porção (Batata ou Polenta) + Refri 350ml + 2 Molhos.",
     price: 95.7,
     category: "combos",
-    image: imgBalde3Pessoas, // Reusing image
+    image: imgComboMedio,
   },
   {
     id: 19,
@@ -237,7 +250,7 @@ export const products = [
       "Balde Grande + Polenta Ind. + Batata Ind. + 3 Molhos + Coca 2L.",
     price: 149.9,
     category: "combos",
-    image: imgBalde5Pessoas, // Reusing image
+    image: imgComboFamiliaReal,
   },
 
   // --- PORÇÕES ---
@@ -395,7 +408,7 @@ export const products = [
     description: "Garrafa.",
     price: 14.0,
     category: "bebidas",
-    image: imgCocaZero600, // Re-using, or check 2L? No, 600ml
+    image: imgCocaZero600,
   },
   {
     id: 39,

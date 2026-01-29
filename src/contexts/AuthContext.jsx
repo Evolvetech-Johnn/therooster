@@ -20,13 +20,13 @@ export const AuthProvider = ({ children }) => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 800));
 
-    if (email === 'admin@rooster.com' && password === 'admin') {
+    if (email === 'admin@rooster.com' && password === 'Rooster@2026') {
       const adminUser = { id: 1, name: 'Admin', email, role: 'admin' };
       setUser(adminUser);
       localStorage.setItem('theRoosterUser', JSON.stringify(adminUser));
       setIsLoading(false);
       return { success: true, user: adminUser };
-    } else if (password === '123456') { // Mock simple password for users
+    } else if (password === 'Rooster@2026') { // Standard password for users
       const clientUser = { id: 2, name: 'Cliente Teste', email, role: 'client' };
       setUser(clientUser);
       localStorage.setItem('theRoosterUser', JSON.stringify(clientUser));

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CreditCard, Banknote, QrCode, Truck, ShoppingBag } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/CartContext";
+import { useOrder } from "../../contexts/OrderContext";
 import { formatCurrency } from "../../utils/formatters";
 import OrderTracker from "../../components/order/OrderTracker";
 import "./Checkout.css";
@@ -11,23 +12,13 @@ import toast from "react-hot-toast";
 const Checkout = () => {
   const { user, isAuthenticated } = useAuth();
   const { cartItems, subtotal, clearCart } = useCart();
+  const { addOrder, orders } = useOrder();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("pix");
   const [orderType, setOrderType] = useState("delivery"); // 'delivery' or 'pickup'
-  const [currentStep, setCurrentStep] = useState(1);
-
-  // Simulation effect to advance steps
-  useEffect(() => {
-    let timer;
-    if (success && currentStep < 4) {
-      timer = setInterval(() => {
-        setCurrentStep((prev) => Math.min(prev + 1, 4));
-      }, 3000); // Advance every 3 seconds for testing
-    }
-    return () => clearInterval(timer);
-  }, [success, currentStep]);
+  const [createdOrderId, setCreatedOrderId] = useState(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -41,19 +32,59 @@ const Checkout = () => {
     }
   }, [isAuthenticated, cartItems, navigate, success]);
 
+  const deliveryFee = orderType === "delivery" ? 5.0 : 0;
+  const total = subtotal + deliveryFee;
+
   const handleFinishOrder = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     // Simulate API call
     setTimeout(() => {
+      const newOrder = {
+        customer: user?.name || "Cliente",
+        items: cartItems
+          .map((item) => `${item.quantity}x ${item.name}`)
+          .join(", "),
+        total: total,
+        type: orderType,
+        paymentMethod: paymentMethod,
+      };
+
+      const createdOrder = addOrder(newOrder);
+      setCreatedOrderId(createdOrder.id);
+
       setLoading(false);
       setSuccess(true);
       clearCart();
       toast.success("Pedido realizado com sucesso!");
-      // In a real app, you'd save the order to DB here
-    }, 2000);
+    }, 1500);
   };
+
+  // Get real-time status from context if order exists
+  const currentOrder = createdOrderId
+    ? orders.find((o) => o.id === createdOrderId)
+    : null;
+
+  const getStepFromStatus = (status) => {
+    switch (status) {
+      case "Recebido":
+        return 1;
+      case "Preparando":
+        return 2;
+      case "Pronto":
+        return 3;
+      case "Saiu p/ Entrega":
+      case "Pronto p/ Retirada":
+      case "Entregue":
+      case "Retirado":
+        return 4;
+      default:
+        return 1;
+    }
+  };
+
+  const currentStep = currentOrder ? getStepFromStatus(currentOrder.status) : 1;
 
   if (success) {
     return (
@@ -63,18 +94,27 @@ const Checkout = () => {
           <h2>Pedido Confirmado!</h2>
           <p>Obrigado pela sua compra, {user?.name}.</p>
           <p>Seu pedido está sendo preparado com carinho.</p>
+          <p className="order-id-display">
+            Pedido: <strong>{createdOrderId}</strong>
+          </p>
 
           <OrderTracker orderType={orderType} currentStep={currentStep} />
 
-          <button className="btn btn-primary" onClick={() => navigate("/")}>
-            Voltar ao Início
-          </button>
+          <div className="success-actions">
+            <button
+              className="btn btn-secondary"
+              onClick={() => navigate("/catalogo")}
+            >
+              Fazer Novo Pedido
+            </button>
+            <button className="btn btn-primary" onClick={() => navigate("/")}>
+              Voltar ao Início
+            </button>
+          </div>
         </div>
       </div>
     );
   }
-
-  const deliveryFee = orderType === "delivery" ? 5.0 : 0;
 
   return (
     <div className="container checkout-page">
@@ -173,7 +213,7 @@ const Checkout = () => {
             </div>
             <div className="summary-row total">
               <span>Total a pagar</span>
-              <strong>{formatCurrency(subtotal + deliveryFee)}</strong>
+              <strong>{formatCurrency(total)}</strong>
             </div>
           </div>
 

@@ -1,93 +1,190 @@
-import React, { useState } from "react";
-import { mockOrders } from "../../services/mockData";
-import { Clock, CheckCircle, Truck, AlertCircle, ShoppingBag } from 'lucide-react';
+import React from "react";
+import { useOrder } from "../../contexts/OrderContext";
+import {
+  Clock,
+  CheckCircle,
+  Truck,
+  AlertCircle,
+  ShoppingBag,
+  ChefHat,
+  ArrowRight,
+  XCircle,
+} from "lucide-react";
+import { formatCurrency } from "../../utils/formatters";
+import "./OrderManager.css";
 
 const OrderManager = () => {
-  const [orders, setOrders] = useState(mockOrders);
+  const { orders, updateOrderStatus, removeOrder } = useOrder();
 
-  const updateStatus = (id, newStatus) => {
-    setOrders(
-      orders.map((order) =>
-        order.id === id ? { ...order, status: newStatus } : order,
-      ),
-    );
-  };
+  const columns = [
+    {
+      id: "Recebido",
+      title: "Recebidos",
+      icon: <AlertCircle size={20} />,
+      color: "#3b82f6",
+    },
+    {
+      id: "Preparando",
+      title: "Em Preparo",
+      icon: <ChefHat size={20} />,
+      color: "#f59e0b",
+    },
+    {
+      id: "Pronto",
+      title: "Pronto",
+      icon: <CheckCircle size={20} />,
+      color: "#10b981",
+    },
+    {
+      id: "Entregue",
+      title: "Finalizados",
+      icon: <Truck size={20} />,
+      color: "#6b7280",
+    }, // Unified for Delivered/Picked up
+  ];
 
-  const getStatusColor = (status) => {
-    switch (status) {
+  const getNextStatus = (currentStatus, type) => {
+    switch (currentStatus) {
       case "Recebido":
-        return "#3b82f6"; // Blue
+        return "Preparando";
       case "Preparando":
-        return "#f59e0b"; // Amber
+        return "Pronto";
       case "Pronto":
-        return "#10b981"; // Green
+        return type === "delivery" ? "Saiu p/ Entrega" : "Pronto p/ Retirada";
+      case "Saiu p/ Entrega":
+        return "Entregue";
+      case "Pronto p/ Retirada":
+        return "Retirado";
       default:
-        return "#6b7280";
+        return null;
     }
   };
 
-  return (
-    <div>
-      <div className="section-header-admin">
-        <h1>Gerenciamento de Pedidos</h1>
-      </div>
-      
-      <div className="orders-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
-        {orders.map((order) => (
-            <div key={order.id} style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                    <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{order.id}</span>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                        <span style={{ 
-                            background: order.type === 'delivery' ? '#3b82f620' : '#8b5cf620', 
-                            color: order.type === 'delivery' ? '#3b82f6' : '#8b5cf6',
-                            padding: '0.25rem 0.5rem',
-                            borderRadius: '4px',
-                            fontSize: '0.85rem',
-                            fontWeight: '700',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.25rem'
-                        }}>
-                            {order.type === 'delivery' ? <Truck size={14} /> : <ShoppingBag size={14} />}
-                            {order.type === 'delivery' ? 'Entrega' : 'Retirada'}
-                        </span>
-                        <span style={{ 
-                            background: getStatusColor(order.status) + '20', 
-                            color: getStatusColor(order.status),
-                            padding: '0.25rem 0.5rem',
-                            borderRadius: '4px',
-                            fontSize: '0.85rem',
-                            fontWeight: '700'
-                        }}>{order.status}</span>
-                    </div>
-                </div>
-                
-                <div style={{ marginBottom: '1rem' }}>
-                    <p style={{ fontWeight: '600', marginBottom: '0.25rem' }}>{order.customer}</p>
-                    <p style={{ color: '#6b7280', fontSize: '0.9rem' }}>{order.items}</p>
-                </div>
+  const handleAdvance = (order) => {
+    const next = getNextStatus(order.status, order.type);
+    if (next) {
+      updateOrderStatus(order.id, next);
+    } else if (
+      order.status === "Saiu p/ Entrega" ||
+      order.status === "Pronto p/ Retirada"
+    ) {
+      // Final step to 'Entregue' or 'Retirado'
+      const finalStatus = order.type === "delivery" ? "Entregue" : "Retirado";
+      updateOrderStatus(order.id, finalStatus);
+    }
+  };
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #e5e7eb', paddingTop: '1rem' }}>
-                    <span style={{ fontWeight: '700', fontSize: '1.1rem' }}>R$ {order.total.toFixed(2)}</span>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                        <button 
-                            onClick={() => updateStatus(order.id, 'Preparando')}
-                            style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #e5e7eb', background: 'white', cursor: 'pointer' }}
-                            title="Preparando"
-                        >
-                            <Clock size={18} color="#f59e0b" />
-                        </button>
-                        <button 
-                            onClick={() => updateStatus(order.id, 'Pronto')}
-                            style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #e5e7eb', background: 'white', cursor: 'pointer' }}
-                            title="Pronto"
-                        >
-                            <CheckCircle size={18} color="#10b981" />
-                        </button>
-                    </div>
-                </div>
+  const getColumnOrders = (columnId) => {
+    return orders.filter((order) => {
+      if (columnId === "Entregue") {
+        return [
+          "Entregue",
+          "Retirado",
+          "Saiu p/ Entrega",
+          "Pronto p/ Retirada",
+        ].includes(order.status);
+      }
+      return order.status === columnId;
+    });
+  };
+
+  // Stats
+  const activeOrdersCount = orders.filter(
+    (o) => !["Entregue", "Retirado", "Cancelado"].includes(o.status),
+  ).length;
+  const totalRevenue = orders.reduce((acc, curr) => acc + curr.total, 0);
+
+  return (
+    <div className="admin-dashboard">
+      <div className="dashboard-header">
+        <div>
+          <h1>Dashboard de Pedidos</h1>
+          <p>Gerencie o fluxo de produção e entrega</p>
+        </div>
+        <div className="stats-container">
+          <div className="stat-card">
+            <span className="stat-label">Pedidos Ativos</span>
+            <span className="stat-value">{activeOrdersCount}</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Receita Total</span>
+            <span className="stat-value">{formatCurrency(totalRevenue)}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="kanban-board">
+        {columns.map((col) => (
+          <div key={col.id} className="kanban-column">
+            <div
+              className="column-header"
+              style={{ borderBottomColor: col.color }}
+            >
+              <div className="column-title">
+                {col.icon}
+                <span>{col.title}</span>
+              </div>
+              <span className="column-count">
+                {getColumnOrders(col.id).length}
+              </span>
             </div>
+
+            <div className="column-content">
+              {getColumnOrders(col.id).map((order) => (
+                <div key={order.id} className="order-card">
+                  <div className="order-header">
+                    <span className="order-id">{order.id}</span>
+                    <span className="order-time">{order.time}</span>
+                  </div>
+
+                  <div className="order-customer">
+                    <strong>{order.customer}</strong>
+                    <span className={`order-type type-${order.type}`}>
+                      {order.type === "delivery" ? (
+                        <Truck size={12} />
+                      ) : (
+                        <ShoppingBag size={12} />
+                      )}
+                      {order.type === "delivery" ? "Entrega" : "Retirada"}
+                    </span>
+                  </div>
+
+                  <p className="order-items">{order.items}</p>
+
+                  <div className="order-footer">
+                    <span className="order-total">
+                      {formatCurrency(order.total)}
+                    </span>
+                    <div className="order-actions">
+                      {col.id !== "Entregue" && (
+                        <button
+                          className="action-btn btn-advance"
+                          onClick={() => handleAdvance(order)}
+                          title="Avançar Etapa"
+                        >
+                          <ArrowRight size={16} />
+                        </button>
+                      )}
+                      <button
+                        className="action-btn btn-delete"
+                        onClick={() => removeOrder(order.id)}
+                        title={col.id === "Entregue" ? "Arquivar" : "Cancelar"}
+                      >
+                        <XCircle size={16} />
+                      </button>
+                    </div>
+                  </div>
+                  {/* Show detailed status for the 'Finalizados' column which mixes statuses */}
+                  {col.id === "Entregue" && (
+                    <div className="status-badge-small">{order.status}</div>
+                  )}
+                </div>
+              ))}
+              {getColumnOrders(col.id).length === 0 && (
+                <div className="empty-column">Sem pedidos</div>
+              )}
+            </div>
+          </div>
         ))}
       </div>
     </div>

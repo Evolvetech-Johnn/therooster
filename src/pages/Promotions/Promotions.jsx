@@ -29,22 +29,33 @@ const Promotions = () => {
             animate="visible"
             variants={containerVariants}
         >
-            <div className="promo-hero">
+            <section className="promo-hero" aria-label="Promoções em destaque">
                 <div className="container promo-hero-content">
-                    <motion.span className="badge-pulse" initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ repeat: Infinity, repeatType: "reverse", duration: 1 }}>Ofertas Limitadas</motion.span>
+                    <motion.span 
+                        className="badge-pulse" 
+                        initial={{ scale: 0.8 }} 
+                        animate={{ scale: 1 }} 
+                        transition={{ repeat: Infinity, repeatType: "reverse", duration: 1 }}
+                    >
+                        Ofertas Limitadas
+                    </motion.span>
                     <h1>Promoções Imperdíveis</h1>
                     <p>Os melhores combos com preços que você só encontra aqui.</p>
                 </div>
-            </div>
+            </section>
 
-            <div className="container promo-grid-container">
+            <section className="container promo-grid-container" aria-label="Lista de produtos em promoção">
                 <div className="promo-grid">
                     {promotions.map(product => (
-                        <motion.div key={product.id} className="promo-card" variants={itemVariants}>
+                        <motion.article key={product.id} className="promo-card" variants={itemVariants}>
                             <div className="promo-image-container">
-                                <img src={product.image} alt={product.name} />
+                                <img 
+                                    src={product.image} 
+                                    alt={`Foto de ${product.name}`} 
+                                    loading="lazy"
+                                />
                                 {product.originalPrice && (
-                                    <span className="discount-badge">
+                                    <span className="discount-badge" aria-label={`${Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% de desconto`}>
                                         -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
                                     </span>
                                 )}
@@ -52,25 +63,35 @@ const Promotions = () => {
                             <div className="promo-details">
                                 <div className="promo-header">
                                     <h3>{product.name}</h3>
-                                    <div className="rating">
+                                    <div className="rating" aria-label="Avaliação 4.9 de 5 estrelas">
                                         <Star size={14} fill="#FFC107" stroke="none" /> 4.9
                                     </div>
                                 </div>
                                 <p className="promo-desc">{product.description}</p>
                                 <div className="promo-footer">
                                     <div className="price-block">
-                                        {product.originalPrice && <span className="old-price">{formatCurrency(product.originalPrice)}</span>}
-                                        <span className="new-price">{formatCurrency(product.price)}</span>
+                                        {product.originalPrice && (
+                                            <span className="old-price" aria-label={`Preço original: ${formatCurrency(product.originalPrice)}`}>
+                                                {formatCurrency(product.originalPrice)}
+                                            </span>
+                                        )}
+                                        <span className="new-price" aria-label={`Preço promocional: ${formatCurrency(product.price)}`}>
+                                            {formatCurrency(product.price)}
+                                        </span>
                                     </div>
-                                    <Link to={`/produto/${product.id}`} className="btn-add">
+                                    <Link 
+                                        to={`/produto/${product.id}`} 
+                                        className="btn-add"
+                                        aria-label={`Comprar ${product.name}`}
+                                    >
                                         Eu Quero <ShoppingBag size={18} />
                                     </Link>
                                 </div>
                             </div>
-                        </motion.div>
+                        </motion.article>
                     ))}
                 </div>
-            </div>
+            </section>
         </motion.div>
     );
 };

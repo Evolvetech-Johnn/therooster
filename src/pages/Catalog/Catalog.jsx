@@ -45,7 +45,7 @@ const Catalog = () => {
 
       <div className="products-grid">
         {filteredProducts.map(product => (
-          <div key={product.id} className="product-card">
+          <div key={product.id} className={`product-card ${product.category === 'bebidas' ? 'card-drink' : ''}`}>
             <Link to={`/produto/${product.id}`} className="product-link">
                 <div className="product-image">
                 <img src={product.image} alt={product.name} />

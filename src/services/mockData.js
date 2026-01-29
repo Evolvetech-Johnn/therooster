@@ -8,7 +8,7 @@ import imgGaloMaluco from '../assets/img-produtos/combo-galo-maluco.png';
 
 // New Imports for formerly missing products
 import imgRoosterChicken from '../assets/img-produtos/rooster-chicken.png';
-import imgRoosterClassic from '../assets/img-produtos/rooster-classic.jpg';
+import imgRoosterClassic from '../assets/img-produtos/rooster-classic.png';
 import imgRoosterDouble from '../assets/img-produtos/rooster-double.png';
 import imgCombo7 from '../assets/img-produtos/combo-7-em-1.png';
 import imgCombo8 from '../assets/img-produtos/combo-8-em-1.png';

@@ -62,6 +62,7 @@ import imgBaldeKids from "../assets/img-produtos/Balde Kids pras crianças.png";
 
 export const categories = [
   { id: "todos", name: "Todos" },
+  { id: "ofertas", name: "Ofertas" },
   { id: "baldes", name: "Baldes" },
   { id: "lanches", name: "Lanches" },
   { id: "combos", name: "Combos" },
@@ -76,20 +77,22 @@ export const products = [
   // --- MAIS PEDIDOS (Categorized) ---
   {
     id: 1,
-    name: "Tiras de Frango Extra Crocante",
+    name: "Tiras de Frango Extra Crocante!",
     description:
-      "4 tiras de frango extra Crocante, com um tempero inconfundível + Molho de brinde!",
+      "A nossa Sugestão é você provar essa delicia!!! São 4 tiras de frango extra Crocante, com um tempero inconfundível da The Rooster! Haaa antes que eu me esqueça, você leva um Molho De brinde!!! Venha conferir...",
     price: 26.7,
     category: "porcoes",
+    isBestSeller: true,
     image: imgRoosterChicken, // Using generic chicken image as specific one not found
   },
   {
     id: 2,
-    name: "Balde Pequeno + Molho Grátis",
+    name: "Balde pequeno + Molho Grátis",
     description:
-      "Frango Crocante, sequinho e delicioso. Ideal para 1 pessoa + 1 molho.",
+      "O nosso Frango é Crocante, sequinho e delicioso, ideal para degustar Sozinho! frango variados, + 1 molho. Eu comi e aprovei e você?",
     price: 58.7,
     category: "baldes",
+    isBestSeller: true,
     image: imgBaldePequeno,
   },
   {
@@ -99,7 +102,7 @@ export const products = [
       "2 Lanches (50% off no 2º) + 1 Batata Ind. + 1 Refri Lata 350ml. (Serve até 2 pessoas)",
     price: 59.9,
     originalPrice: 77.9,
-    category: "combos",
+    category: "ofertas",
     image: imgComboGaloMaluco,
   },
 

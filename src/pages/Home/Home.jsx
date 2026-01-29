@@ -1,32 +1,90 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Drumstick, UtensilsCrossed, Sandwich, Package, Pizza, IceCream, Baby, Coffee } from 'lucide-react';
+import { Drumstick, UtensilsCrossed, Sandwich, Package, Pizza, IceCream, Baby, Coffee, Flame, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import HeroSlider from '../../components/home/HeroSlider';
-import { products, categories } from '../../services/mockData';
-
+import { products } from '../../services/mockData';
 import { formatCurrency } from '../../utils/formatters';
 import './Home.css';
 
 const Home = () => {
     
-    // Mock data for UI
-    const bestSellers = products.slice(0, 4);
-    const mainCategories = categories.filter(c => c.id !== 'todos');
-    const promoProduct = products.find(p => p.id === 19) || products[0];
+    // Define OnePage Sections based on User Request
+    const sections = [
+        { 
+            id: 'mais-pedidos', 
+            title: 'Os Mais Pedidos', 
+            icon: <Star size={20} />,
+            products: products.filter(p => p.isBestSeller) // Needs isBestSeller in mockData
+        },
+        { 
+            id: 'ofertas', 
+            title: 'O Galo Ficou Doido - Super Ofertas', 
+            icon: <Flame size={20} />,
+            products: products.filter(p => p.category === 'ofertas')
+        },
+        { 
+            id: 'lanches', 
+            title: 'Lanches Premium', 
+            icon: <Sandwich size={20} />,
+            products: products.filter(p => p.category === 'lanches')
+        },
+        { 
+            id: 'combos', 
+            title: 'Combos Premium', 
+            icon: <UtensilsCrossed size={20} />,
+            products: products.filter(p => p.category === 'combos')
+        },
+        { 
+            id: 'baldes', 
+            title: 'Baldes de Frango', 
+            icon: <Drumstick size={20} />,
+            products: products.filter(p => p.category === 'baldes')
+        },
+        { 
+            id: 'porcoes', 
+            title: 'Porções', 
+            icon: <Package size={20} />,
+            products: products.filter(p => p.category === 'porcoes')
+        },
+        { 
+            id: 'molhos', 
+            title: 'Molhos Adicionais', 
+            icon: <Pizza size={20} />,
+            products: products.filter(p => p.category === 'molhos')
+        },
+        { 
+            id: 'bebidas', 
+            title: 'Bebidas Geladas', 
+            icon: <Coffee size={20} />,
+            products: products.filter(p => p.category === 'bebidas')
+        },
+        { 
+            id: 'sobremesas', 
+            title: 'Sobremesas', 
+            icon: <IceCream size={20} />,
+            products: products.filter(p => p.category === 'sobremesas')
+        },
+        { 
+            id: 'kids', 
+            title: 'Kids', 
+            icon: <Baby size={20} />,
+            products: products.filter(p => p.category === 'kids')
+        }
+    ];
 
-    // Category Icons Map
-    const getCategoryIcon = (id) => {
-        switch(id) {
-            case 'baldes': return <Drumstick size={32} />;
-            case 'lanches': return <Sandwich size={32} />;
-            case 'combos': return <UtensilsCrossed size={32} />;
-            case 'porcoes': return <Package size={32} />;
-            case 'molhos': return <Pizza size={32} />; // Using Pizza as generic food/extra icon or Utensils
-            case 'bebidas': return <Coffee size={32} />; // Coffee often used for drinks logic, or maybe Beer? let's stick to generic drink if avail or Coffee/Cup
-            case 'sobremesas': return <IceCream size={32} />;
-            case 'kids': return <Baby size={32} />;
-            default: return <UtensilsCrossed size={32} />;
+    const scrollToSection = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            // Offset for sticky header
+            const headerOffset = 140; 
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
         }
     };
 
@@ -51,91 +109,68 @@ const Home = () => {
     };
 
     return (
-        <motion.div 
-            className="home-page"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-        >
+        <div className="home-page">
             <div className="container">
-                {/* 1. Hero Slider (McD Style) */}
+                {/* 1. Hero Slider */}
                 <HeroSlider />
 
-                {/* 2. Quick Actions (McD Tiles) */}
-                <section className="quick-actions-section">
-                    <div className="quick-action-grid">
-                        <Link to="/catalogo" className="quick-action-card qa-menu">
-                            <div className="qa-content">
-                                <h3>Peça e Retire</h3>
-                                <p>Fure a fila e pegue no balcão</p>
-                                <span className="qa-btn">Cardápio Completo</span>
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&q=80" alt="Cardápio" className="qa-img" />
-                        </Link>
-
-                        <Link to="/login" className="quick-action-card qa-account">
-                            <div className="qa-content">
-                                <h3>Clube Rooster</h3>
-                                <p>Seus pedidos valem pontos!</p>
-                                <span className="qa-btn">Minha Conta</span>
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=400&q=80" alt="Conta" className="qa-img" />
-                        </Link>
-                    </div>
-                </section>
-
-                {/* 3. Categorias (Horizontal Scroll Strip) */}
-                <section className="home-section categories-section">
-                    <div className="section-header">
-                        <h2>O que você quer comer hoje?</h2>
-                    </div>
-                    <motion.div className="categories-grid" variants={containerVariants}>
-                        {mainCategories.map(cat => (
-                            <motion.div key={cat.id} variants={itemVariants}>
-                                <Link to={`/catalogo?cat=${cat.id}`} className="category-card" aria-label={`Categoria ${cat.name}`}>
-                                    <div className="cat-icon">{getCategoryIcon(cat.id)}</div>
-                                    <span>{cat.name}</span>
-                                </Link>
-                            </motion.div>
+                {/* 2. Sticky Category Nav */}
+                <div className="sticky-nav-container">
+                    <div className="category-nav">
+                        {sections.map(section => (
+                            <button 
+                                key={section.id} 
+                                onClick={() => scrollToSection(section.id)}
+                                className="cat-nav-btn"
+                            >
+                                {section.icon}
+                                <span>{section.title.split(' - ')[0]}</span> {/* Shorten title for nav */}
+                            </button>
                         ))}
-                    </motion.div>
-                </section>
-
-                {/* 4. Destaques / Cupom (Horizontal Scroll) */}
-                <section className="home-section">
-                    <div className="section-header">
-                        <h2>⭐ Destaques da Semana</h2>
                     </div>
-                    <motion.div className="best-sellers-list" variants={containerVariants}>
-                        {bestSellers.map(product => (
-                            <motion.div key={product.id} className={`best-seller-item ${product.category === 'bebidas' ? 'item-drink' : ''}`} variants={itemVariants}>
-                                <div className="bs-image">
-                                    <img src={product.image} alt={product.name} />
+                </div>
+
+                {/* 3. Render Sections */}
+                <motion.div 
+                    initial="hidden"
+                    animate="visible"
+                    variants={containerVariants}
+                    className="menu-sections"
+                >
+                    {sections.map(section => (
+                        section.products.length > 0 && (
+                            <section key={section.id} id={section.id} className="home-section menu-section">
+                                <div className="section-header">
+                                    <h2>{section.title}</h2>
                                 </div>
-                                <div className="bs-info">
-                                    <h4>{product.name}</h4>
-                                    <p className="bs-price">{formatCurrency(product.price)}</p>
-                                    <div className="bs-rating">
-                                        <Star size={12} fill="var(--color-primary)" stroke="none" /> 4.8
-                                    </div>
+                                <div className="best-sellers-list">
+                                    {section.products.map(product => (
+                                        <motion.div key={product.id} className={`best-seller-item ${product.category === 'bebidas' ? 'item-drink' : ''}`} variants={itemVariants}>
+                                            <div className="bs-image">
+                                                <img src={product.image} alt={product.name} />
+                                            </div>
+                                            <div className="bs-info">
+                                                <h4>{product.name}</h4>
+                                                <p className="bs-description">{product.description}</p>
+                                                <div className="bs-footer">
+                                                    <p className="bs-price">
+                                                        {product.originalPrice && <span className="original-price">{formatCurrency(product.originalPrice)}</span>}
+                                                        {formatCurrency(product.price)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <Link to={`/produto/${product.id}`} className="btn btn-outline btn-sm btn-icon" aria-label={`Ver detalhes de ${product.name}`}>
+                                                +
+                                            </Link>
+                                        </motion.div>
+                                    ))}
                                 </div>
-                                <Link to={`/produto/${product.id}`} className="btn btn-outline btn-sm btn-icon" aria-label={`Ver detalhes de ${product.name}`}>
-                                    +
-                                </Link>
-                            </motion.div>
-                        ))}
-                        
-                        {/* Fake Coupon Card in list for variety */}
-                         <motion.div className="best-seller-item coupon-item" variants={itemVariants}>
-                            <div className="bs-info">
-                                <h4>🎟 Cupom: ROOSTER10</h4>
-                                <p className="bs-price" style={{color: 'var(--color-success)'}}>10% OFF</p>
-                            </div>
-                         </motion.div>
-                    </motion.div>
-                </section>
+                            </section>
+                        )
+                    ))}
+                </motion.div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 

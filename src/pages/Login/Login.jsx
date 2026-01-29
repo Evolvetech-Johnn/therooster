@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import './Login.css';
 
@@ -9,6 +9,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const { login, isLoading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +19,8 @@ const Login = () => {
       if (result.user.role === 'admin') {
         navigate('/admin');
       } else {
-        navigate('/');
+        const destination = location.state?.from || '/';
+        navigate(destination);
       }
     } else {
       setError(result.message);

@@ -1,9 +1,7 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import Home from "../pages/Home/Home";
-import Catalog from "../pages/Catalog/Catalog";
-import Promotions from "../pages/Promotions/Promotions";
 import Cart from "../pages/Cart/Cart";
 import Login from "../pages/Login/Login";
 import Checkout from "../pages/Checkout/Checkout";
@@ -23,8 +21,8 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="catalogo" element={<Catalog />} />
-        <Route path="promocoes" element={<Promotions />} />
+        <Route path="catalogo" element={<Navigate to="/" replace />} />
+        <Route path="promocoes" element={<Navigate to="/" replace />} />
         <Route path="produto/:id" element={<ProductDetails />} />
         <Route path="carrinho" element={<Cart />} />
         <Route path="checkout" element={<Checkout />} />

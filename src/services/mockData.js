@@ -5,6 +5,16 @@ const placeholderImg = 'https://images.unsplash.com/photo-1563897539633-7374c276
 import imgTiras from '../assets/img-produtos/tiras-frango-crocante.png';
 import imgBaldePequeno from '../assets/img-produtos/balde-pequeno-molho.png';
 import imgGaloMaluco from '../assets/img-produtos/combo-galo-maluco.png';
+
+// New Imports for formerly missing products
+import imgRoosterChicken from '../assets/img-produtos/rooster-chicken.png';
+import imgRoosterClassic from '../assets/img-produtos/rooster-classic.jpg';
+import imgRoosterDouble from '../assets/img-produtos/rooster-double.png';
+import imgCombo7 from '../assets/img-produtos/combo-7-em-1.png';
+import imgCombo8 from '../assets/img-produtos/combo-8-em-1.png';
+import img4Lanches from '../assets/img-produtos/4-lanches-precinho.png';
+import imgMegaCombo from '../assets/img-produtos/10-em-1-mega-combo.png';
+
 import imgTexasRooster from '../assets/img-produtos/hamburguer-texas-rooster.png';
 import imgTexasFit from '../assets/img-produtos/texas-fit.png';
 import imgComboInd from '../assets/img-produtos/combo-lanche-batata-refri.png';
@@ -84,7 +94,7 @@ export const products = [
     description: 'Pão selado na manteiga, maionese caseira, 2 filés de sassami crocante, queijo cheddar.',
     price: 33.50,
     category: 'lanches',
-    image: placeholderImg
+    image: imgRoosterChicken
   },
   {
     id: 5,
@@ -92,7 +102,7 @@ export const products = [
     description: 'Pão selado, maionese de alho, 2 filés de sassami crocante, tomate e queijo cheddar.',
     price: 33.50,
     category: 'lanches',
-    image: placeholderImg
+    image: imgRoosterClassic
   },
   {
     id: 6,
@@ -100,7 +110,7 @@ export const products = [
     description: 'Tudo em dobro! Pão, maionese caseira, 2 sassamis, 2 cheddars, 2 bacons.',
     price: 35.50,
     category: 'lanches',
-    image: placeholderImg
+    image: imgRoosterDouble
   },
 
   // --- COMBOS ---
@@ -110,7 +120,7 @@ export const products = [
     description: '2 lanches + 2 sassami + 1 batata frita + 1 refri 600ml + 1 molho.',
     price: 105.70,
     category: 'combos',
-    image: placeholderImg
+    image: imgCombo7
   },
   {
     id: 8,
@@ -118,7 +128,7 @@ export const products = [
     description: '2 lanches + 4 tiras de Frango + 2 molhos a sua escolha.',
     price: 89.70,
     category: 'combos',
-    image: placeholderImg
+    image: imgCombo8
   },
   {
     id: 9,
@@ -126,7 +136,7 @@ export const products = [
     description: 'Você escolhe os seus 4 lanches favoritos!',
     price: 97.70,
     category: 'combos',
-    image: placeholderImg
+    image: img4Lanches
   },
   {
     id: 10,
@@ -134,7 +144,7 @@ export const products = [
     description: '4 tiras de Sassami + 2 lanches + 2 refri 350ml + 1 Batata Frita + 1 molho.',
     price: 112.50,
     category: 'combos',
-    image: placeholderImg
+    image: imgMegaCombo
   },
 
   // --- BALDES ---

@@ -129,23 +129,23 @@
     gap: 0.25rem;
 }
 
-/* Categories Grid - Horizontal Scroll on Mobile */
+/* Categories Grid */
 .categories-grid {
     display: flex;
     overflow-x: auto;
     gap: 1rem;
     padding-bottom: 1rem;
     scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch; /* iOS Momentum Scrolling */
-    scrollbar-width: none; /* Firefox */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
 }
 
 .categories-grid::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+    display: none;
 }
 
 .categories-grid > div {
-    flex: 0 0 140px; /* Fixed width for category cards */
+    flex: 0 0 140px;
     scroll-snap-align: start;
 }
 
@@ -153,6 +153,7 @@
     .categories-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
         overflow-x: visible;
         padding-bottom: 0;
     }
@@ -162,30 +163,42 @@
     }
 }
 
-@media (min-width: 600px) {
-    .categories-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
+.category-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color, #e2e8f0);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-align: center;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-main);
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    height: 100%;
 }
 
-.category-card {
-    background: var(--bg-card-light);
-    border: none;
-    padding: 1.5rem;
-    text-align: center;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    transition: all 0.2s;
-    color: var(--color-secondary); /* Dark text */
-    font-family: var(--font-heading);
-    font-size: 1.25rem;
-    letter-spacing: 0.5px;
+.cat-icon {
+    color: var(--color-primary);
+    transition: transform 0.3s ease;
 }
 
 .category-card:hover {
-    background: var(--color-primary);
-    color: white;
-    transform: translateY(-2px);
+    background: var(--bg-card); /* Keep same bg or slight change? Let's use border highlight + lift */
+    border-color: var(--color-primary);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    color: var(--color-primary);
+}
+
+.category-card:hover .cat-icon {
+    transform: scale(1.1) rotate(-5deg);
 }
 
 /* Best Sellers List - Mobile Optimized */

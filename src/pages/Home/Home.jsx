@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star } from 'lucide-react';
+import { ArrowRight, Star, Drumstick, UtensilsCrossed, Sandwich, Package, Pizza, IceCream, Baby, Coffee } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { products, categories } from '../../services/mockData';
 
@@ -13,6 +13,21 @@ const Home = () => {
     const bestSellers = products.slice(0, 4);
     const mainCategories = categories.filter(c => c.id !== 'todos');
     const promoProduct = products.find(p => p.id === 19) || products[0];
+
+    // Category Icons Map
+    const getCategoryIcon = (id) => {
+        switch(id) {
+            case 'baldes': return <Drumstick size={32} />;
+            case 'lanches': return <Sandwich size={32} />;
+            case 'combos': return <UtensilsCrossed size={32} />;
+            case 'porcoes': return <Package size={32} />;
+            case 'molhos': return <Pizza size={32} />; // Using Pizza as generic food/extra icon or Utensils
+            case 'bebidas': return <Coffee size={32} />; // Coffee often used for drinks logic, or maybe Beer? let's stick to generic drink if avail or Coffee/Cup
+            case 'sobremesas': return <IceCream size={32} />;
+            case 'kids': return <Baby size={32} />;
+            default: return <UtensilsCrossed size={32} />;
+        }
+    };
 
     // Animation Variants
     const containerVariants = {
@@ -70,6 +85,7 @@ const Home = () => {
                         {mainCategories.map(cat => (
                             <motion.div key={cat.id} variants={itemVariants}>
                                 <Link to={`/catalogo?cat=${cat.id}`} className="category-card" aria-label={`Categoria ${cat.name}`}>
+                                    <div className="cat-icon">{getCategoryIcon(cat.id)}</div>
                                     <span>{cat.name}</span>
                                 </Link>
                             </motion.div>

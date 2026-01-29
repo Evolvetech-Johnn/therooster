@@ -2,50 +2,50 @@
 // Fallback placeholder
 const placeholderImg = 'https://images.unsplash.com/photo-1563897539633-7374c276c212?w=500&q=80';
 
-import imgTiras from '../assets/img-produtos/tiras-frango-crocante.png';
-import imgBaldePequeno from '../assets/img-produtos/balde-pequeno-molho.png';
-import imgGaloMaluco from '../assets/img-produtos/combo-galo-maluco.png';
+import imgTiras from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing tiras-frango-crocante.png
+import imgBaldePequeno from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing balde-pequeno-molho.png
+import imgGaloMaluco from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing combo-galo-maluco.png
 
 // New Imports for formerly missing products
-import imgRoosterChicken from '../assets/img-produtos/rooster-chicken.png';
-import imgRoosterClassic from '../assets/img-produtos/rooster-classic.png';
-import imgRoosterDouble from '../assets/img-produtos/rooster-double.png';
-import imgCombo7 from '../assets/img-produtos/combo-7-em-1.png';
-import imgCombo8 from '../assets/img-produtos/combo-8-em-1.png';
-import img4Lanches from '../assets/img-produtos/4-lanches-precinho.png';
-import imgMegaCombo from '../assets/img-produtos/10-em-1-mega-combo.png';
+import imgRoosterChicken from '../assets/img-produtos/Rooster Chicken.png';
+import imgRoosterClassic from '../assets/img-produtos/Rooster Classic.png';
+import imgRoosterDouble from '../assets/img-produtos/Rooster double.png';
+import imgCombo7 from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing combo-7-em-1.png
+import imgCombo8 from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing combo-8-em-1.png
+import img4Lanches from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing 4-lanches-precinho.png
+import imgMegaCombo from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing 10-em-1-mega-combo.png
 
-import imgTexasRooster from '../assets/img-produtos/hamburguer-texas-rooster.png';
-import imgTexasFit from '../assets/img-produtos/texas-fit.png';
-import imgComboInd from '../assets/img-produtos/combo-lanche-batata-refri.png';
-import img5em1 from '../assets/img-produtos/5-em-1-super-combo.png';
-import imgComboCasal from '../assets/img-produtos/combo-balde-casal.png';
-import imgBalde3Pessoas from '../assets/img-produtos/balde-3-pessoas-completo.png';
-import imgBalde5Pessoas from '../assets/img-produtos/balde-5-pessoas-completo.png';
-import imgPolentaInd from '../assets/img-produtos/polenta-individual.png';
-import imgBatataInd from '../assets/img-produtos/batata-individual.png';
-import imgOnionInd from '../assets/img-produtos/onion-rings-individual.png';
-import imgBaldeBatata from '../assets/img-produtos/balde-batata-frita.png';
-import imgBaldeOnion from '../assets/img-produtos/balde-onion-rings.png';
-import imgBaldePolenta from '../assets/img-produtos/balde-polenta-frita.png';
-import imgMolhoAlho from '../assets/img-produtos/molho-alho.png';
-import imgMolhoBacon from '../assets/img-produtos/molho-bacon.png';
-import imgMolhoBarbecue from '../assets/img-produtos/molho-barbecue.png';
-import imgMolhoMostarda from '../assets/img-produtos/molho-mostarda-mel.png';
-import imgMolhoGoiabada from '../assets/img-produtos/molho-goiabada-pimenta.png';
-import imgCoca350 from '../assets/img-produtos/coca-cola-350ml.png';
-import imgGuarana350 from '../assets/img-produtos/guarana-350ml.png';
-import imgFanta350 from '../assets/img-produtos/fanta-laranja-350ml.png';
-import imgCocaZero350 from '../assets/img-produtos/coca-zero-350ml.png';
-import imgSprite350 from '../assets/img-produtos/sprite-350ml.png';
-import imgCoca2L from '../assets/img-produtos/coca-cola-2l.png';
-import imgGuarana2L from '../assets/img-produtos/guarana-2l.png';
-import imgCocaZero2L from '../assets/img-produtos/coca-zero-2l.png';
-import imgCocaZero600 from '../assets/img-produtos/coca-zero-600ml.png';
-import imgHeineken from '../assets/img-produtos/cerveja-heineken-330ml.png';
-import imgSorvete from '../assets/img-produtos/sorvete.png';
-import imgComboFamiliaKids from '../assets/img-produtos/combo-familia-kids.png';
-import imgBaldeKids from '../assets/img-produtos/balde-kids.png';
+import imgTexasRooster from '../assets/img-produtos/Hamburguer Texas Rooster.png';
+import imgTexasFit from '../assets/img-produtos/Texas Fit.png';
+import imgComboInd from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing combo-lanche-batata-refri.png
+import img5em1 from '../assets/img-produtos/5 EM 1 SUPER COMBO.png';
+import imgComboCasal from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing combo-balde-casal.png
+import imgBalde3Pessoas from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing balde-3-pessoas-completo.png
+import imgBalde5Pessoas from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing balde-5-pessoas-completo.png
+import imgPolentaInd from '../assets/img-produtos/Polenta Individual.png';
+import imgBatataInd from '../assets/img-produtos/Batata Individual.png';
+import imgOnionInd from '../assets/img-produtos/Onion Rings Individual.png';
+import imgBaldeBatata from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing balde-batata-frita.png
+import imgBaldeOnion from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing balde-onion-rings.png
+import imgBaldePolenta from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing balde-polenta-frita.png
+import imgMolhoAlho from '../assets/img-produtos/Alho.png';
+import imgMolhoBacon from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing molho-bacon.png
+import imgMolhoBarbecue from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing molho-barbecue.png
+import imgMolhoMostarda from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing molho-mostarda-mel.png
+import imgMolhoGoiabada from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing molho-goiabada-pimenta.png
+import imgCoca350 from '../assets/img-produtos/Coca cola 350 ml.png';
+import imgGuarana350 from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing guarana-350ml.png
+import imgFanta350 from '../assets/img-produtos/Fanta Laranja 350ml.png';
+import imgCocaZero350 from '../assets/img-produtos/Coca Zero 350ml.png';
+import imgSprite350 from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing sprite-350ml.png
+import imgCoca2L from '../assets/img-produtos/Coca-Cola 2 Litros.png';
+import imgGuarana2L from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing guarana-2l.png
+import imgCocaZero2L from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing coca-zero-2l.png
+import imgCocaZero600 from '../assets/img-produtos/Coca Zero 600ml.png';
+import imgHeineken from '../assets/img-produtos/Cerveja Heineken 330ml.png';
+import imgSorvete from '../assets/img-produtos/SORVETE.png';
+import imgComboFamiliaKids from '../assets/img-produtos/logotherooster-nobg.png'; // FIXME: Missing combo-familia-kids.png
+import imgBaldeKids from '../assets/img-produtos/Balde Kids pras crianças.png';
 
 export const categories = [
   { id: 'todos', name: 'Todos' },

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Instagram, MapPin, Phone, ShieldCheck, FileText } from "lucide-react";
 import "./Footer.css";
-import logoImg from "../../assets/logotherooster.png";
+import logoImg from "../../assets/logotherooster-nobg.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -65,7 +65,6 @@ const Footer = () => {
             <div className="contact-item">
               <Phone size={20} className="contact-icon" />
               <div>
-                <p>Delivery: Pedidos exclusivamente pela plataforma</p>
                 <p className="franchise-highlight">
                   <strong>Seja um franqueado:</strong>
                   <br />

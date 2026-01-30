@@ -4,7 +4,7 @@ import { ShoppingBag, User, Menu, X, MapPin, Clock } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
 import { useStore } from "../../contexts/StoreContext";
 import { AnimatePresence, motion as Motion } from "framer-motion"; // Animation components
-import logoImg from "../../assets/logotherooster.png";
+import logoImg from "../../assets/logotherooster-nobg.png";
 import "./Header.css";
 
 const Header = () => {

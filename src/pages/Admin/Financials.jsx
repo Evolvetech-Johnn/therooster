@@ -1,9 +1,27 @@
 import React from 'react';
-import { mockFinancials } from '../../services/mockData';
+import { useOrder } from '../../contexts/OrderContext';
 import { formatCurrency } from '../../utils/formatters';
 import { TrendingUp, TrendingDown, Calendar, AlertTriangle } from 'lucide-react';
 
 const Financials = () => {
+    const { orders } = useOrder();
+
+    // Calculate real revenue from orders
+    const monthlyRevenue = orders
+        .filter(o => !['Cancelado'].includes(o.status))
+        .reduce((acc, curr) => acc + curr.total, 0);
+
+    // Mock expenses for now (could be moved to a context later)
+    const expenses = [
+        { id: 1, name: 'Fornecedor de Frango', date: '2023-10-25', amount: 1200.00, status: 'Pendente' },
+        { id: 2, name: 'Embalagens', date: '2023-10-22', amount: 450.00, status: 'Pago' },
+        { id: 3, name: 'Energia Elétrica', date: '2023-10-10', amount: 380.00, status: 'Pago' },
+        { id: 4, name: 'Internet', date: '2023-10-05', amount: 120.00, status: 'Pago' },
+    ];
+
+    const totalExpenses = expenses.reduce((acc, curr) => acc + curr.amount, 0);
+    const pendingExpenses = expenses.filter(e => e.status === 'Pendente').reduce((acc, curr) => acc + curr.amount, 0);
+
     return (
         <div>
             <div className="section-header-admin">
@@ -15,22 +33,22 @@ const Financials = () => {
                 <div className="stat-card highlight">
                     <div className="stat-icon"><TrendingUp size={24} /></div>
                     <div className="stat-info">
-                        <h3>Receita Mensal</h3>
-                        <p className="stat-value">{formatCurrency(mockFinancials.monthlyRevenue)}</p>
+                        <h3>Receita Total</h3>
+                        <p className="stat-value">{formatCurrency(monthlyRevenue)}</p>
                     </div>
                 </div>
                 <div className="stat-card">
                     <div className="stat-icon" style={{ color: '#ef4444' }}><TrendingDown size={24} /></div>
                     <div className="stat-info">
                         <h3>Despesas Totais</h3>
-                        <p className="stat-value">{formatCurrency(2100.00)}</p>
+                        <p className="stat-value">{formatCurrency(totalExpenses)}</p>
                     </div>
                 </div>
                 <div className="stat-card">
                     <div className="stat-icon" style={{ color: '#f59e0b' }}><AlertTriangle size={24} /></div>
                     <div className="stat-info">
-                        <h3>A Pagar (Hoje)</h3>
-                        <p className="stat-value">{formatCurrency(450.00)}</p>
+                        <h3>A Pagar</h3>
+                        <p className="stat-value">{formatCurrency(pendingExpenses)}</p>
                     </div>
                 </div>
             </div>
@@ -50,7 +68,7 @@ const Financials = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {mockFinancials.expenses.map(expense => (
+                            {expenses.map(expense => (
                                 <tr key={expense.id} style={{ borderBottom: '1px solid var(--color-accent)' }}>
                                     <td style={{ padding: '1rem' }}>{expense.name}</td>
                                     <td style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

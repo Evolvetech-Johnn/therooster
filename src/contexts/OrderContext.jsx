@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { mockOrders } from "../services/mockData";
 
 const OrderContext = createContext();
 
@@ -13,11 +12,8 @@ export const OrderProvider = ({ children }) => {
     if (savedOrders) {
       return JSON.parse(savedOrders);
     }
-    // Initialize with mock data if no local storage, adding default type if missing
-    return mockOrders.map(order => ({
-        ...order,
-        type: order.type || 'delivery' // Default to delivery if not specified
-    }));
+    // Initialize with empty array for real persistence
+    return [];
   });
 
   useEffect(() => {
@@ -29,7 +25,10 @@ export const OrderProvider = ({ children }) => {
       ...newOrder,
       id: `#${Math.floor(1000 + Math.random() * 9000)}`, // Random ID
       status: "Recebido",
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
       date: new Date().toISOString(),
     };
     setOrders((prevOrders) => [orderWithId, ...prevOrders]);
@@ -39,17 +38,21 @@ export const OrderProvider = ({ children }) => {
   const updateOrderStatus = (orderId, newStatus) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
-        order.id === orderId ? { ...order, status: newStatus } : order
-      )
+        order.id === orderId ? { ...order, status: newStatus } : order,
+      ),
     );
   };
 
   const removeOrder = (orderId) => {
-    setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
+    setOrders((prevOrders) =>
+      prevOrders.filter((order) => order.id !== orderId),
+    );
   };
 
   const getActiveOrders = () => {
-    return orders.filter(order => !['Entregue', 'Retirado', 'Cancelado'].includes(order.status));
+    return orders.filter(
+      (order) => !["Entregue", "Retirado", "Cancelado"].includes(order.status),
+    );
   };
 
   const value = {
@@ -57,12 +60,10 @@ export const OrderProvider = ({ children }) => {
     addOrder,
     updateOrderStatus,
     removeOrder,
-    getActiveOrders
+    getActiveOrders,
   };
 
   return (
-    <OrderContext.Provider value={value}>
-      {children}
-    </OrderContext.Provider>
+    <OrderContext.Provider value={value}>{children}</OrderContext.Provider>
   );
 };

@@ -14,6 +14,7 @@ import OrderManager from "../pages/Admin/OrderManager";
 import Financials from "../pages/Admin/Financials";
 import Inventory from "../pages/Admin/Inventory";
 import Metrics from "../pages/Admin/Metrics";
+import ProductForm from "../pages/Admin/ProductForm";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 
 const AppRoutes = () => {
@@ -39,6 +40,8 @@ const AppRoutes = () => {
           }
         >
           <Route index element={<Admin />} /> {/* Default Dashboard */}
+          <Route path="produtos/novo" element={<ProductForm />} />
+          <Route path="produtos/editar/:id" element={<ProductForm />} />
           <Route path="pedidos" element={<OrderManager />} />
           <Route path="financeiro" element={<Financials />} />
           <Route path="estoque" element={<Inventory />} />

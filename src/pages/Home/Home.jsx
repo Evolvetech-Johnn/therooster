@@ -15,11 +15,13 @@ import {
 import { motion as Motion } from "framer-motion";
 import HeroSlider from "../../components/home/HeroSlider";
 import InstagramFeed from "../../components/home/InstagramFeed";
-import { products } from "../../services/mockData";
+import { useProducts } from "../../contexts/ProductContext";
 import { formatCurrency } from "../../utils/formatters";
 import "./Home.css";
 
 const Home = () => {
+  const { products } = useProducts();
+
   // Define OnePage Sections based on User Request
   const sections = [
     {

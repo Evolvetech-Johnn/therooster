@@ -37,6 +37,12 @@ const Checkout = () => {
 
   const handleFinishOrder = async (e) => {
     e.preventDefault();
+
+    if (!isOpen) {
+      toast.error("Desculpe, a loja está fechada no momento.");
+      return;
+    }
+
     setLoading(true);
 
     // Simulate API call
@@ -46,6 +52,7 @@ const Checkout = () => {
         items: cartItems
           .map((item) => `${item.quantity}x ${item.name}`)
           .join(", "),
+        itemsList: cartItems, // Persist structured data for analytics
         total: total,
         type: orderType,
         paymentMethod: paymentMethod,

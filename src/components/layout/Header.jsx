@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingBag, User, Menu, X, MapPin, Clock } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
+import { useStore } from "../../contexts/StoreContext";
 import { AnimatePresence, motion as Motion } from "framer-motion"; // Animation components
 import logoImg from "../../assets/logotherooster.png";
 import "./Header.css";
 
 const Header = () => {
   const { totalItems } = useCart();
+  const { isOpen } = useStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOpenNow, setIsOpenNow] = useState(false);
   const location = useLocation();
 
   // Scroll effect
@@ -22,19 +23,6 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Time check for "Open Now"
-  useEffect(() => {
-    const checkTime = () => {
-      const now = new Date();
-      const hour = now.getHours();
-      // Example: Open from 18:00 to 23:59
-      setIsOpenNow(hour >= 18 && hour <= 23);
-    };
-    checkTime();
-    const interval = setInterval(checkTime, 60000); // Check every minute
-    return () => clearInterval(interval);
-  }, []);
-
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -44,11 +32,11 @@ const Header = () => {
         <div className="top-bar">
           <div className="container top-bar-content">
             <div
-              className={`status-indicator ${isOpenNow ? "open" : "closed"}`}
+              className={`status-indicator ${isOpen ? "open" : "closed"}`}
             >
               <Clock size={14} />
               <span>
-                {isOpenNow ? "Aberto Agora" : "Fechado (Abre às 18:00)"}
+                {isOpen ? "Aberto Agora" : "Fechado (Abre às 18:00)"}
               </span>
             </div>
             <div className="location-indicator">

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useProducts } from "../../contexts/ProductContext";
 import { useStore } from "../../contexts/StoreContext";
+import { useStock } from "../../contexts/StockContext";
 import {
   Package,
   Users,
@@ -11,14 +12,21 @@ import {
   DollarSign,
   TrendingUp,
   Store,
+  UtensilsCrossed,
+  AlertTriangle,
 } from "lucide-react";
 import "./Admin.css";
 
 const Admin = () => {
   const { user, logout } = useAuth();
   const { products } = useProducts();
+  const { stockItems } = useStock();
   const { isOpen, toggleStoreOpen } = useStore();
   const navigate = useNavigate();
+
+  const lowStockCount = stockItems.filter(
+    (item) => item.quantity <= item.minThreshold,
+  ).length;
 
   // Auth is now handled by ProtectedRoute wrapper in AppRoutes
   // We can rely on user being present here
@@ -91,28 +99,47 @@ const Admin = () => {
         </div>
         <div
           className="stat-card"
-          onClick={() => navigate("/admin/estoque")}
+          onClick={() => navigate("/admin/cardapio")}
           style={{ cursor: "pointer" }}
         >
           <div className="stat-icon">
-            <Package size={24} />
+            <UtensilsCrossed size={24} />
           </div>
           <div className="stat-info">
-            <h3>Produtos Ativos</h3>
+            <h3>Itens do Cardápio</h3>
             <p className="stat-value">{products.length}</p>
           </div>
         </div>
         <div
           className="stat-card"
-          onClick={() => navigate("/admin/metricas")}
-          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/admin/estoque")}
+          style={{
+            cursor: "pointer",
+            border: lowStockCount > 0 ? "1px solid #ef4444" : "none",
+          }}
         >
-          <div className="stat-icon">
-            <Users size={24} />
+          <div
+            className="stat-icon"
+            style={{ color: lowStockCount > 0 ? "#ef4444" : "inherit" }}
+          >
+            {lowStockCount > 0 ? (
+              <AlertTriangle size={24} />
+            ) : (
+              <Package size={24} />
+            )}
           </div>
           <div className="stat-info">
-            <h3>Usuários Novos</h3>
-            <p className="stat-value">12</p>
+            <h3 style={{ color: lowStockCount > 0 ? "#ef4444" : "inherit" }}>
+              {lowStockCount > 0 ? "Alertas de Estoque" : "Insumos em Estoque"}
+            </h3>
+            <p
+              className="stat-value"
+              style={{ color: lowStockCount > 0 ? "#ef4444" : "inherit" }}
+            >
+              {lowStockCount > 0
+                ? `${lowStockCount} Baixos`
+                : stockItems.length}
+            </p>
           </div>
         </div>
       </div>
@@ -121,10 +148,17 @@ const Admin = () => {
       <div className="admin-actions-grid">
         <button
           className="admin-action-btn"
+          onClick={() => navigate("/admin/cardapio")}
+        >
+          <UtensilsCrossed size={32} />
+          <span>Itens do Cardápio</span>
+        </button>
+        <button
+          className="admin-action-btn"
           onClick={() => navigate("/admin/estoque")}
         >
           <Package size={32} />
-          <span>Gerenciar Estoque</span>
+          <span>Controle de Estoque</span>
         </button>
         <button
           className="admin-action-btn"

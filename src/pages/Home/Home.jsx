@@ -11,8 +11,10 @@ import {
   Coffee,
   Flame,
   Star,
+  Maximize2,
+  X,
 } from "lucide-react";
-import { motion as Motion } from "framer-motion";
+import { AnimatePresence, motion as Motion } from "framer-motion";
 import HeroSlider from "../../components/home/HeroSlider";
 import InstagramFeed from "../../components/home/InstagramFeed";
 import { useProducts } from "../../contexts/ProductContext";
@@ -176,6 +178,13 @@ const Home = () => {
                       >
                         <div className="bs-image">
                           <img src={product.image} alt={product.name} />
+                          <button 
+                            className="zoom-btn"
+                            onClick={() => setSelectedProduct(product)}
+                            aria-label="Ampliar imagem e ver detalhes"
+                          >
+                            <Maximize2 size={20} />
+                          </button>
                         </div>
                         <div className="bs-info">
                           <h4>{product.name}</h4>

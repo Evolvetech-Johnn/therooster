@@ -55,9 +55,9 @@ const Footer = () => {
             <div className="contact-item">
               <MapPin size={20} className="contact-icon" />
               <p>
-                Avenida Itororó, 721 - Centro,
+                Rua Exemplo, 123 - Bairro Modelo,
                 <br />
-                Indaiatuba, SP - CEP 13334-050
+                Cidade Exemplo, UF - CEP 00000-000
                 <br />
                 Brasil
               </p>
@@ -68,7 +68,7 @@ const Footer = () => {
                 <p className="franchise-highlight">
                   <strong>Seja um franqueado:</strong>
                   <br />
-                  (17) 99271-2068
+                  (XX) XXXXX-XXXX
                 </p>
               </div>
             </div>

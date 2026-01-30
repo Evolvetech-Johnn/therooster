@@ -10,6 +10,7 @@ const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity, subtotal, clearCart } =
     useCart();
   const { isAuthenticated } = useAuth();
+  const { storeConfig } = useStore();
   const navigate = useNavigate();
   const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);

@@ -15,6 +15,7 @@ import Financials from "../pages/Admin/Financials";
 import Inventory from "../pages/Admin/Inventory";
 import Metrics from "../pages/Admin/Metrics";
 import ProductForm from "../pages/Admin/ProductForm";
+import RawMaterials from "../pages/Admin/RawMaterials";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 
 const AppRoutes = () => {

@@ -189,12 +189,16 @@
 }
 
 .bs-price {
-  font-weight: 700;
-  color: var(--color-success);
-  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-primary); /* Orange Price */
+  font-size: 1.4rem;
   display: flex;
   flex-direction: column;
   line-height: 1;
+  background: rgba(240, 90, 40, 0.1); /* Harmonious Light Orange Highlight */
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(240, 90, 40, 0.15); /* Subtle border definition */
 }
 
 .original-price {
@@ -310,10 +314,14 @@
 
 .modal-price {
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--color-primary);
   margin-bottom: 1.5rem;
   font-family: var(--font-heading);
+  background: rgba(240, 90, 40, 0.1);
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
 }
 
 .btn-block {

@@ -4,6 +4,7 @@ import { CreditCard, Banknote, QrCode, Truck, ShoppingBag } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/CartContext";
 import { useOrder } from "../../contexts/OrderContext";
+import { useStore } from "../../contexts/StoreContext";
 import { formatCurrency } from "../../utils/formatters";
 import OrderTracker from "../../components/order/OrderTracker";
 import "./Checkout.css";
@@ -13,12 +14,29 @@ const Checkout = () => {
   const { user, isAuthenticated } = useAuth();
   const { cartItems, subtotal, clearCart } = useCart();
   const { addOrder, orders } = useOrder();
+  const { storeConfig } = useStore();
   const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("pix");
   const [orderType, setOrderType] = useState("delivery"); // 'delivery' or 'pickup'
   const [createdOrderId, setCreatedOrderId] = useState(null);
+
+  // Form States
+  const [phone, setPhone] = useState(user?.phone || "");
+  const [address, setAddress] = useState({
+    cep: "",
+    street: "",
+    number: "",
+    neighborhood: "",
+    complement: "",
+    city: "São Paulo", // Default or fetched
+    state: "SP",
+  });
+  const [changeFor, setChangeFor] = useState("");
+
+  const isOpen = storeConfig?.isOpen ?? true;
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -32,8 +50,32 @@ const Checkout = () => {
     }
   }, [isAuthenticated, cartItems, navigate, success]);
 
-  const deliveryFee = orderType === "delivery" ? 5.0 : 0;
+  const deliveryFee = orderType === "delivery" ? (storeConfig?.deliveryFee || 5.0) : 0;
   const total = subtotal + deliveryFee;
+
+  // Input Masking
+  const handlePhoneChange = (e) => {
+    let value = e.target.value.replace(/\D/g, "");
+    if (value.length > 11) value = value.slice(0, 11);
+    
+    if (value.length > 2) {
+      value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+    }
+    if (value.length > 9) {
+      value = `${value.slice(0, 9)}-${value.slice(9)}`;
+    }
+    setPhone(value);
+  };
+
+  const handleCepChange = (e) => {
+    let value = e.target.value.replace(/\D/g, "");
+    if (value.length > 8) value = value.slice(0, 8);
+    
+    if (value.length > 5) {
+      value = `${value.slice(0, 5)}-${value.slice(5)}`;
+    }
+    setAddress({ ...address, cep: value });
+  };
 
   const handleFinishOrder = async (e) => {
     e.preventDefault();
@@ -43,19 +85,45 @@ const Checkout = () => {
       return;
     }
 
+    // Validation
+    if (!phone || phone.length < 14) { // (11) 91234-5678 is 15 chars, (11) 1234-5678 is 14 chars
+      toast.error("Por favor, informe um telefone válido.");
+      return;
+    }
+
+    if (orderType === "delivery") {
+      if (!address.street || !address.number || !address.neighborhood || !address.cep) {
+        toast.error("Por favor, preencha todos os campos obrigatórios do endereço.");
+        return;
+      }
+    }
+
+    if (paymentMethod === "cash" && changeFor) {
+        // Optional: Validate if changeFor is greater than total
+        // Simple check just to ensure it's not text garbage if needed
+    }
+
     setLoading(true);
 
     // Simulate API call
     setTimeout(() => {
+      const fullAddress = orderType === "delivery" 
+        ? `${address.street}, ${address.number} - ${address.neighborhood} (${address.cep})${address.complement ? ` - ${address.complement}` : ''}`
+        : "Retirada no Local";
+
       const newOrder = {
         customer: user?.name || "Cliente",
-        items: cartItems
-          .map((item) => `${item.quantity}x ${item.name}`)
-          .join(", "),
-        itemsList: cartItems, // Persist structured data for analytics
+        phone: phone,
+        items: cartItems.map((item) => `${item.quantity}x ${item.name}`).join(", "),
+        itemsList: cartItems,
         total: total,
         type: orderType,
         paymentMethod: paymentMethod,
+        changeFor: paymentMethod === "cash" ? changeFor : null,
+        address: fullAddress,
+        deliveryFee: deliveryFee,
+        status: "Recebido", // Initial status
+        createdAt: new Date().toISOString()
       };
 
       const createdOrder = addOrder(newOrder);
@@ -75,19 +143,14 @@ const Checkout = () => {
 
   const getStepFromStatus = (status) => {
     switch (status) {
-      case "Recebido":
-        return 1;
-      case "Preparando":
-        return 2;
-      case "Pronto":
-        return 3;
+      case "Recebido": return 1;
+      case "Preparando": return 2;
+      case "Pronto": return 3;
       case "Saiu p/ Entrega":
       case "Pronto p/ Retirada":
       case "Entregue":
-      case "Retirado":
-        return 4;
-      default:
-        return 1;
+      case "Retirado": return 4;
+      default: return 1;
     }
   };
 
@@ -128,6 +191,23 @@ const Checkout = () => {
       <h1>Finalizar Pedido</h1>
       <div className="checkout-content">
         <form className="checkout-form" onSubmit={handleFinishOrder}>
+            
+            {/* Contact Info */}
+            <section className="form-section">
+                <h3>Contato</h3>
+                <div className="form-group">
+                    <label>Telefone / WhatsApp</label>
+                    <input 
+                        type="text" 
+                        placeholder="(11) 99999-9999"
+                        value={phone}
+                        onChange={handlePhoneChange}
+                        maxLength={15}
+                        required
+                    />
+                </div>
+            </section>
+
           <section className="form-section">
             <h3>Tipo de Pedido</h3>
             <div className="order-type-grid">
@@ -151,18 +231,68 @@ const Checkout = () => {
           {orderType === "delivery" && (
             <section className="form-section">
               <h3>Endereço de Entrega</h3>
-              <div className="form-group">
-                <label>Endereço Completo</label>
-                <input
-                  type="text"
-                  placeholder="Rua, Número, Bairro"
-                  required
-                  defaultValue="Rua Exemplo, 123"
-                />
+              <div className="form-row">
+                  <div className="form-group" style={{ flex: '1' }}>
+                    <label>CEP</label>
+                    <input
+                      type="text"
+                      placeholder="00000-000"
+                      value={address.cep}
+                      onChange={handleCepChange}
+                      maxLength={9}
+                      required
+                    />
+                  </div>
+                  <div className="form-group" style={{ flex: '2' }}>
+                      <label>Cidade</label>
+                      <input type="text" value={address.city} disabled />
+                  </div>
               </div>
+              
+              <div className="form-row">
+                <div className="form-group" style={{ flex: '3' }}>
+                    <label>Rua</label>
+                    <input
+                    type="text"
+                    placeholder="Nome da rua"
+                    value={address.street}
+                    onChange={(e) => setAddress({...address, street: e.target.value})}
+                    required
+                    />
+                </div>
+                <div className="form-group" style={{ flex: '1' }}>
+                    <label>Número</label>
+                    <input
+                    type="text"
+                    placeholder="123"
+                    value={address.number}
+                    onChange={(e) => setAddress({...address, number: e.target.value})}
+                    required
+                    />
+                </div>
+              </div>
+
+              <div className="form-row">
+                  <div className="form-group" style={{ flex: '1' }}>
+                    <label>Bairro</label>
+                    <input
+                        type="text"
+                        placeholder="Bairro"
+                        value={address.neighborhood}
+                        onChange={(e) => setAddress({...address, neighborhood: e.target.value})}
+                        required
+                    />
+                  </div>
+              </div>
+
               <div className="form-group">
-                <label>Complemento</label>
-                <input type="text" placeholder="Apto, Bloco, etc." />
+                <label>Complemento (Opcional)</label>
+                <input 
+                    type="text" 
+                    placeholder="Apto, Bloco, Ponto de referência" 
+                    value={address.complement}
+                    onChange={(e) => setAddress({...address, complement: e.target.value})}
+                />
               </div>
             </section>
           )}
@@ -175,7 +305,7 @@ const Checkout = () => {
                   <strong>Endereço:</strong> Rua do Galo, 100 - Centro
                 </p>
                 <p>
-                  Seu pedido estará pronto em aproximadamente 30-40 minutos.
+                  Seu pedido estará pronto em aproximadamente {storeConfig?.waitTime || '30-40 min'}.
                 </p>
               </div>
             </section>
@@ -206,7 +336,35 @@ const Checkout = () => {
                 <span>Dinheiro</span>
               </div>
             </div>
-            <input type="hidden" name="paymentMethod" value={paymentMethod} />
+
+            {paymentMethod === "pix" && (
+              <div
+                className="payment-info-box"
+                style={{
+                  marginTop: "1rem",
+                  padding: "1rem",
+                  background: "var(--bg-input)",
+                  borderRadius: "var(--radius-md)",
+                }}
+              >
+                <p style={{ marginBottom: "0.5rem", fontWeight: "bold" }}>
+                  Chave PIX (CNPJ): 00.000.000/0001-00
+                </p>
+                <small>O pagamento será confirmado na entrega/retirada.</small>
+              </div>
+            )}
+
+            {paymentMethod === "cash" && (
+              <div className="form-group" style={{ marginTop: "1rem" }}>
+                <label>Troco para quanto? (Deixe vazio se não precisar)</label>
+                <input
+                  type="text"
+                  placeholder="R$ 50,00"
+                  value={changeFor}
+                  onChange={(e) => setChangeFor(e.target.value)}
+                />
+              </div>
+            )}
           </section>
 
           <div className="order-summary-mini">

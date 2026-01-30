@@ -133,17 +133,19 @@ const Home = () => {
         {/* 2. Sticky Category Nav */}
         <div className="sticky-nav-container">
           <div className="category-nav">
-            {sections.map((section) => (
-              <button
-                key={section.id}
-                onClick={() => scrollToSection(section.id)}
-                className="cat-nav-btn"
-              >
-                {section.icon}
-                <span>{section.title.split(" - ")[0]}</span>{" "}
-                {/* Shorten title for nav */}
-              </button>
-            ))}
+            {sections
+              .filter((section) => section.products.length > 0)
+              .map((section) => (
+                <button
+                  key={section.id}
+                  onClick={() => scrollToSection(section.id)}
+                  className="cat-nav-btn"
+                >
+                  {section.icon}
+                  <span>{section.title.split(" - ")[0]}</span>{" "}
+                  {/* Shorten title for nav */}
+                </button>
+              ))}
           </div>
         </div>
 

@@ -50,7 +50,7 @@ const Cart = () => {
     );
   }
 
-  const deliveryFee = 5.0;
+  const deliveryFee = storeConfig.deliveryFee;
   const total = subtotal + deliveryFee - discount;
 
   return (

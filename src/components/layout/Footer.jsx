@@ -22,7 +22,7 @@ const Footer = () => {
             </p>
             <div className="social-links">
               <a
-                href="https://www.instagram.com/therosther_oficial?igsh=MWI3bW80MWFpcXNsaA%3D%3D"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-btn"

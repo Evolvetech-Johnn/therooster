@@ -17,7 +17,7 @@ import "./Admin.css";
 const Admin = () => {
   const { user, logout } = useAuth();
   const { products } = useProducts();
-  const { isOpen, toggleStore } = useStore();
+  const { isOpen, toggleStoreOpen } = useStore();
   const navigate = useNavigate();
 
   // Auth is now handled by ProtectedRoute wrapper in AppRoutes

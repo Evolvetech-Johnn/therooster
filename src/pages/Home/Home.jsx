@@ -23,6 +23,7 @@ import "./Home.css";
 
 const Home = () => {
   const { products } = useProducts();
+  const [selectedProduct, setSelectedProduct] = React.useState(null);
 
   // Define OnePage Sections based on User Request
   const sections = [
@@ -178,7 +179,7 @@ const Home = () => {
                       >
                         <div className="bs-image">
                           <img src={product.image} alt={product.name} />
-                          <button 
+                          <button
                             className="zoom-btn"
                             onClick={() => setSelectedProduct(product)}
                             aria-label="Ampliar imagem e ver detalhes"
@@ -216,6 +217,52 @@ const Home = () => {
               ),
           )}
         </Motion.div>
+
+        <AnimatePresence>
+          {selectedProduct && (
+            <Motion.div
+              className="product-modal-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProduct(null)}
+            >
+              <Motion.div
+                className="product-modal-content"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  className="close-modal-btn"
+                  onClick={() => setSelectedProduct(null)}
+                >
+                  <X size={24} />
+                </button>
+                <div className="modal-image-container">
+                  <img src={selectedProduct.image} alt={selectedProduct.name} />
+                </div>
+                <div className="modal-info">
+                  <h3>{selectedProduct.name}</h3>
+                  <p className="modal-description">
+                    {selectedProduct.description}
+                  </p>
+                  <div className="modal-price">
+                    {formatCurrency(selectedProduct.price)}
+                  </div>
+                  <Link
+                    to={`/produto/${selectedProduct.id}`}
+                    className="btn btn-primary btn-block"
+                    onClick={() => setSelectedProduct(null)}
+                  >
+                    Ver Detalhes Completos
+                  </Link>
+                </div>
+              </Motion.div>
+            </Motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

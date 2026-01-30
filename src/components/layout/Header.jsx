@@ -124,6 +124,8 @@ const Header = () => {
                 className="mobile-menu-btn"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label="Menu"
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-menu-overlay"
               >
                 {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
               </button>
@@ -136,6 +138,7 @@ const Header = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <Motion.div
+            id="mobile-menu-overlay"
             className="mobile-menu-overlay"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}

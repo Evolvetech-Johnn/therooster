@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Trash2, Plus, Minus, ArrowLeft } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { useStore } from "../../contexts/StoreContext";
 import { formatCurrency } from "../../utils/formatters";
 import "./Cart.css";
 

@@ -35,7 +35,7 @@ const Admin = () => {
           style={{ display: "flex", gap: "1rem", alignItems: "center" }}
         >
           <button
-            onClick={toggleStore}
+            onClick={toggleStoreOpen}
             className={`btn btn-sm ${isOpen ? "btn-success" : "btn-danger"}`}
             style={{
               backgroundColor: isOpen ? "#22c55e" : "#ef4444",

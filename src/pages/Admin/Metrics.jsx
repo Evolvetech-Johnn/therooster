@@ -12,8 +12,12 @@ const Metrics = () => {
     orders.forEach(order => {
         if (!['Cancelado'].includes(order.status)) {
             const date = new Date(order.date);
-            const dayIndex = date.getDay();
-            salesByDay[dayIndex].vendas += order.total;
+            if (!isNaN(date)) {
+                const dayIndex = date.getDay();
+                if (salesByDay[dayIndex]) {
+                    salesByDay[dayIndex].vendas += order.total;
+                }
+            }
         }
     });
 

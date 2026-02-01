@@ -41,16 +41,23 @@ export const CartProvider = ({ children }) => {
   }, [cartItems]);
 
   const addToCart = (product, quantity = 1) => {
-    let itemExists = false;
+    const lookupId = product.cartId || product.id;
+    const existingItem = cartItems.find(
+      (item) => (item.cartId || item.id) === lookupId,
+    );
+
+    if (existingItem) {
+      toast.success(`Quantidade atualizada: ${product.name}`);
+    } else {
+      toast.success(`${product.name} adicionado ao carrinho! 🍗`);
+    }
 
     setCartItems((prevItems) => {
-      const lookupId = product.cartId || product.id;
       const existingItemIndex = prevItems.findIndex(
         (item) => (item.cartId || item.id) === lookupId,
       );
 
       if (existingItemIndex > -1) {
-        itemExists = true;
         const newItems = [...prevItems];
         newItems[existingItemIndex] = {
           ...newItems[existingItemIndex],
@@ -61,12 +68,6 @@ export const CartProvider = ({ children }) => {
         return [...prevItems, { ...product, quantity }];
       }
     });
-
-    // Side effects outside state updater
-    // We can't perfectly know if it was an update or add here because state update is async,
-    // but we can check the current state or just assume based on logic.
-    // However, since we are inside the function scope, we can't easily know the result of the previous state check inside the setter.
-    // Better approach: Check existence BEFORE setting state.
   };
 
   const removeFromCart = (productId) => {

@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CreditCard, Banknote, QrCode, Truck, ShoppingBag } from "lucide-react";
+import {
+  CreditCard,
+  Banknote,
+  QrCode,
+  Truck,
+  ShoppingBag,
+  Utensils,
+} from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/CartContext";
 import { useOrder } from "../../contexts/OrderContext";
@@ -35,6 +42,7 @@ const Checkout = () => {
     state: "SP",
   });
   const [changeFor, setChangeFor] = useState("");
+  const [tableNumber, setTableNumber] = useState("");
   const [orderObservations, setOrderObservations] = useState("");
 
   const isOpen = storeConfig?.isOpen ?? true;
@@ -51,14 +59,15 @@ const Checkout = () => {
     }
   }, [isAuthenticated, cartItems, navigate, success]);
 
-  const deliveryFee = orderType === "delivery" ? (storeConfig?.deliveryFee || 5.0) : 0;
+  const deliveryFee =
+    orderType === "delivery" ? storeConfig?.deliveryFee || 5.0 : 0;
   const total = subtotal + deliveryFee;
 
   // Input Masking
   const handlePhoneChange = (e) => {
     let value = e.target.value.replace(/\D/g, "");
     if (value.length > 11) value = value.slice(0, 11);
-    
+
     if (value.length > 2) {
       value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
     }
@@ -71,7 +80,7 @@ const Checkout = () => {
   const handleCepChange = (e) => {
     let value = e.target.value.replace(/\D/g, "");
     if (value.length > 8) value = value.slice(0, 8);
-    
+
     if (value.length > 5) {
       value = `${value.slice(0, 5)}-${value.slice(5)}`;
     }
@@ -87,45 +96,66 @@ const Checkout = () => {
     }
 
     // Validation
-    if (!phone || phone.length < 14) { // (11) 91234-5678 is 15 chars, (11) 1234-5678 is 14 chars
+    if (!phone || phone.length < 14) {
+      // (11) 91234-5678 is 15 chars, (11) 1234-5678 is 14 chars
       toast.error("Por favor, informe um telefone válido.");
       return;
     }
 
     if (orderType === "delivery") {
-      if (!address.street || !address.number || !address.neighborhood || !address.cep) {
-        toast.error("Por favor, preencha todos os campos obrigatórios do endereço.");
+      if (
+        !address.street ||
+        !address.number ||
+        !address.neighborhood ||
+        !address.cep
+      ) {
+        toast.error(
+          "Por favor, preencha todos os campos obrigatórios do endereço.",
+        );
         return;
       }
     }
 
+    if (orderType === "dine_in" && !tableNumber) {
+      toast.error("Por favor, informe o número da mesa.");
+      return;
+    }
+
     if (paymentMethod === "cash" && changeFor) {
-        // Optional: Validate if changeFor is greater than total
-        // Simple check just to ensure it's not text garbage if needed
+      // Optional: Validate if changeFor is greater than total
+      // Simple check just to ensure it's not text garbage if needed
     }
 
     setLoading(true);
 
     // Simulate API call
     setTimeout(() => {
-      const fullAddress = orderType === "delivery" 
-        ? `${address.street}, ${address.number} - ${address.neighborhood} (${address.cep})${address.complement ? ` - ${address.complement}` : ''}`
-        : "Retirada no Local";
+      let fullAddress = "";
+      if (orderType === "delivery") {
+        fullAddress = `${address.street}, ${address.number} - ${address.neighborhood} (${address.cep})${address.complement ? ` - ${address.complement}` : ""}`;
+      } else if (orderType === "dine_in") {
+        fullAddress = `Mesa ${tableNumber}`;
+      } else {
+        fullAddress = "Retirada no Local";
+      }
 
       const newOrder = {
         customer: user?.name || "Cliente",
         phone: phone,
-        items: cartItems.map((item) => `${item.quantity}x ${item.name}`).join(", "),
+        items: cartItems
+          .map((item) => `${item.quantity}x ${item.name}`)
+          .join(", "),
         itemsList: cartItems,
         total: total,
         type: orderType,
+        tableNumber: orderType === "dine_in" ? tableNumber : null,
         paymentMethod: paymentMethod,
         changeFor: paymentMethod === "cash" ? changeFor : null,
         observations: orderObservations,
         address: fullAddress,
         deliveryFee: deliveryFee,
         status: "Recebido", // Initial status
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
       const createdOrder = addOrder(newOrder);
@@ -145,14 +175,19 @@ const Checkout = () => {
 
   const getStepFromStatus = (status) => {
     switch (status) {
-      case "Recebido": return 1;
-      case "Preparando": return 2;
-      case "Pronto": return 3;
+      case "Recebido":
+        return 1;
+      case "Preparando":
+        return 2;
+      case "Pronto":
+        return 3;
       case "Saiu p/ Entrega":
       case "Pronto p/ Retirada":
       case "Entregue":
-      case "Retirado": return 4;
-      default: return 1;
+      case "Retirado":
+        return 4;
+      default:
+        return 1;
     }
   };
 
@@ -193,22 +228,21 @@ const Checkout = () => {
       <h1>Finalizar Pedido</h1>
       <div className="checkout-content">
         <form className="checkout-form" onSubmit={handleFinishOrder}>
-            
-            {/* Contact Info */}
-            <section className="form-section">
-                <h3>Contato</h3>
-                <div className="form-group">
-                    <label>Telefone / WhatsApp</label>
-                    <input 
-                        type="text" 
-                        placeholder="(11) 99999-9999"
-                        value={phone}
-                        onChange={handlePhoneChange}
-                        maxLength={15}
-                        required
-                    />
-                </div>
-            </section>
+          {/* Contact Info */}
+          <section className="form-section">
+            <h3>Contato</h3>
+            <div className="form-group">
+              <label>Telefone / WhatsApp</label>
+              <input
+                type="text"
+                placeholder="(11) 99999-9999"
+                value={phone}
+                onChange={handlePhoneChange}
+                maxLength={15}
+                required
+              />
+            </div>
+          </section>
 
           <section className="form-section">
             <h3>Tipo de Pedido</h3>
@@ -227,73 +261,104 @@ const Checkout = () => {
                 <ShoppingBag size={32} />
                 <span>Retirada</span>
               </div>
+              <div
+                className={`payment-card ${orderType === "dine_in" ? "selected" : ""}`}
+                onClick={() => setOrderType("dine_in")}
+              >
+                <Utensils size={32} />
+                <span>Mesa</span>
+              </div>
             </div>
           </section>
+
+          {orderType === "dine_in" && (
+            <section className="form-section">
+              <h3>Informações da Mesa</h3>
+              <div className="form-group">
+                <label>Número da Mesa</label>
+                <input
+                  type="text"
+                  placeholder="Ex: 05"
+                  value={tableNumber}
+                  onChange={(e) => setTableNumber(e.target.value)}
+                  required
+                />
+              </div>
+            </section>
+          )}
 
           {orderType === "delivery" && (
             <section className="form-section">
               <h3>Endereço de Entrega</h3>
               <div className="form-row">
-                  <div className="form-group" style={{ flex: '1' }}>
-                    <label>CEP</label>
-                    <input
-                      type="text"
-                      placeholder="00000-000"
-                      value={address.cep}
-                      onChange={handleCepChange}
-                      maxLength={9}
-                      required
-                    />
-                  </div>
-                  <div className="form-group" style={{ flex: '2' }}>
-                      <label>Cidade</label>
-                      <input type="text" value={address.city} disabled />
-                  </div>
-              </div>
-              
-              <div className="form-row">
-                <div className="form-group" style={{ flex: '3' }}>
-                    <label>Rua</label>
-                    <input
+                <div className="form-group" style={{ flex: "1" }}>
+                  <label>CEP</label>
+                  <input
                     type="text"
-                    placeholder="Nome da rua"
-                    value={address.street}
-                    onChange={(e) => setAddress({...address, street: e.target.value})}
+                    placeholder="00000-000"
+                    value={address.cep}
+                    onChange={handleCepChange}
+                    maxLength={9}
                     required
-                    />
+                  />
                 </div>
-                <div className="form-group" style={{ flex: '1' }}>
-                    <label>Número</label>
-                    <input
-                    type="text"
-                    placeholder="123"
-                    value={address.number}
-                    onChange={(e) => setAddress({...address, number: e.target.value})}
-                    required
-                    />
+                <div className="form-group" style={{ flex: "2" }}>
+                  <label>Cidade</label>
+                  <input type="text" value={address.city} disabled />
                 </div>
               </div>
 
               <div className="form-row">
-                  <div className="form-group" style={{ flex: '1' }}>
-                    <label>Bairro</label>
-                    <input
-                        type="text"
-                        placeholder="Bairro"
-                        value={address.neighborhood}
-                        onChange={(e) => setAddress({...address, neighborhood: e.target.value})}
-                        required
-                    />
-                  </div>
+                <div className="form-group" style={{ flex: "3" }}>
+                  <label>Rua</label>
+                  <input
+                    type="text"
+                    placeholder="Nome da rua"
+                    value={address.street}
+                    onChange={(e) =>
+                      setAddress({ ...address, street: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+                <div className="form-group" style={{ flex: "1" }}>
+                  <label>Número</label>
+                  <input
+                    type="text"
+                    placeholder="123"
+                    value={address.number}
+                    onChange={(e) =>
+                      setAddress({ ...address, number: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group" style={{ flex: "1" }}>
+                  <label>Bairro</label>
+                  <input
+                    type="text"
+                    placeholder="Bairro"
+                    value={address.neighborhood}
+                    onChange={(e) =>
+                      setAddress({ ...address, neighborhood: e.target.value })
+                    }
+                    required
+                  />
+                </div>
               </div>
 
               <div className="form-group">
                 <label>Complemento (Opcional)</label>
-                <input 
-                    type="text" 
-                    placeholder="Apto, Bloco, Ponto de referência" 
-                    value={address.complement}
-                    onChange={(e) => setAddress({...address, complement: e.target.value})}
+                <input
+                  type="text"
+                  placeholder="Apto, Bloco, Ponto de referência"
+                  value={address.complement}
+                  onChange={(e) =>
+                    setAddress({ ...address, complement: e.target.value })
+                  }
                 />
               </div>
             </section>
@@ -307,7 +372,8 @@ const Checkout = () => {
                   <strong>Endereço:</strong> Rua do Galo, 100 - Centro
                 </p>
                 <p>
-                  Seu pedido estará pronto em aproximadamente {storeConfig?.waitTime || '30-40 min'}.
+                  Seu pedido estará pronto em aproximadamente{" "}
+                  {storeConfig?.waitTime || "30-40 min"}.
                 </p>
               </div>
             </section>
@@ -380,14 +446,14 @@ const Checkout = () => {
                 onChange={(e) => setOrderObservations(e.target.value)}
                 rows={3}
                 style={{
-                    width: '100%',
-                    padding: '0.8rem',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-color)',
-                    background: 'var(--bg-input)',
-                    color: 'var(--text-main)',
-                    fontFamily: 'inherit',
-                    resize: 'vertical'
+                  width: "100%",
+                  padding: "0.8rem",
+                  borderRadius: "var(--radius-md)",
+                  border: "1px solid var(--border-color)",
+                  background: "var(--bg-input)",
+                  color: "var(--text-main)",
+                  fontFamily: "inherit",
+                  resize: "vertical",
                 }}
               />
             </div>

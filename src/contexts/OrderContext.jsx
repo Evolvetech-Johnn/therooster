@@ -20,10 +20,31 @@ export const OrderProvider = ({ children }) => {
     localStorage.setItem("rooster_orders", JSON.stringify(orders));
   }, [orders]);
 
+  const generateOrderId = () => {
+    const today = new Date().toISOString().split('T')[0];
+    const sequenceData = localStorage.getItem("rooster_order_sequence");
+    
+    let count = 1;
+    
+    if (sequenceData) {
+      const { date, lastCount } = JSON.parse(sequenceData);
+      if (date === today) {
+        count = lastCount + 1;
+      }
+    }
+    
+    localStorage.setItem("rooster_order_sequence", JSON.stringify({
+      date: today,
+      lastCount: count
+    }));
+    
+    return `#${String(count).padStart(3, '0')}`;
+  };
+
   const addOrder = (newOrder) => {
     const orderWithId = {
       ...newOrder,
-      id: `#${Math.floor(1000 + Math.random() * 9000)}`, // Random ID
+      id: generateOrderId(), // Sequential daily ID
       status: "Recebido",
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",

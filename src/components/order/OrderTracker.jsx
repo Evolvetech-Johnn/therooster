@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import "./OrderTracker.css";
-import { CheckCircle, Clock, Truck, ShoppingBag, ChefHat } from "lucide-react";
+import {
+  CheckCircle,
+  Clock,
+  Truck,
+  ShoppingBag,
+  ChefHat,
+  Utensils,
+} from "lucide-react";
 
 const OrderTracker = ({ orderType = "delivery", currentStep = 1 }) => {
   // Use state to freeze the start time on mount, ensuring stable rendering
@@ -36,11 +43,17 @@ const OrderTracker = ({ orderType = "delivery", currentStep = 1 }) => {
     {
       id: 4,
       label:
-        orderType === "delivery" ? "Saiu p/ Entrega" : "Pronto p/ Retirada",
+        orderType === "delivery"
+          ? "Saiu p/ Entrega"
+          : orderType === "dine_in"
+            ? "Servido"
+            : "Pronto p/ Retirada",
       time: formatTime(baseTime + 35 * 60000),
       icon:
         orderType === "delivery" ? (
           <Truck size={24} />
+        ) : orderType === "dine_in" ? (
+          <Utensils size={24} />
         ) : (
           <ShoppingBag size={24} />
         ),

@@ -8,6 +8,8 @@ import Checkout from "../pages/Checkout/Checkout";
 import Admin from "../pages/Admin/Admin";
 import Register from "../pages/Register/Register";
 import ProductDetails from "../pages/Product/ProductDetails";
+import Menu from "../pages/Menu/Menu";
+import Promotions from "../pages/Promotions/Promotions";
 
 import AdminLayout from "../pages/Admin/AdminLayout";
 import OrderManager from "../pages/Admin/OrderManager";
@@ -23,8 +25,8 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="catalogo" element={<Navigate to="/" replace />} />
-        <Route path="promocoes" element={<Navigate to="/" replace />} />
+        <Route path="catalogo" element={<Menu />} />
+        <Route path="promocoes" element={<Promotions />} />
         <Route path="produto/:id" element={<ProductDetails />} />
         <Route path="carrinho" element={<Cart />} />
         <Route path="checkout" element={<Checkout />} />

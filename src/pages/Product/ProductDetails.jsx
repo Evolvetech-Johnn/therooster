@@ -12,7 +12,8 @@ const ProductDetails = () => {
   const { addToCart } = useCart();
   const { getProductById } = useProducts();
   const [quantity, setQuantity] = useState(1);
-  const [selectedExtras, setSelectedExtras] = useState([]);
+  const [selectedExtras, setSelectedExtras] = useState({}); // { id: quantity }
+  const [observations, setObservations] = useState("");
 
   // Mock extras options - Expanded for Sauces logic
   const extrasOptions = [
@@ -37,17 +38,24 @@ const ProductDetails = () => {
   // Logic: Extract free sauce count from description
   const maxFreeSauces = useMemo(() => {
     if (!product) return 0;
-    const match = product.description.match(/(\d+)\s*molhos/i);
-    return match ? parseInt(match[1]) : 0;
+    // Matches "2 molhos", "1 molho", "um molho", "uma molho" (typo handling)
+    const match = product.description.match(/(?:(\d+)|um|uma)\s*molho/i);
+    if (!match) return 0;
+
+    // If a number is captured in group 1, use it. Otherwise it matched "um"/"uma" so return 1.
+    return match[1] ? parseInt(match[1]) : 1;
   }, [product]);
 
-  const handleExtraChange = (extraId) => {
+  const handleExtraChange = (extraId, delta) => {
     setSelectedExtras((prev) => {
-      if (prev.includes(extraId)) {
-        return prev.filter((id) => id !== extraId);
-      } else {
-        return [...prev, extraId];
+      const currentQty = prev[extraId] || 0;
+      const newQty = Math.max(0, currentQty + delta);
+
+      if (newQty === 0) {
+        const { [extraId]: _, ...rest } = prev;
+        return rest;
       }
+      return { ...prev, [extraId]: newQty };
     });
   };
 
@@ -58,23 +66,35 @@ const ProductDetails = () => {
     let totalPrice = product.price;
     let freeSaucesUsed = 0;
 
-    // Ensure consistent order for calculation (e.g., sauces processed)
-    // Actually, we just need to identify which selected items are sauces
-    const selectedItems = extrasOptions.filter((e) =>
-      selectedExtras.includes(e.id),
-    );
+    // Separate sauces from other extras
+    const selectedSauces = [];
+    const otherExtras = [];
 
-    selectedItems.forEach((item) => {
-      if (item.type === "sauce") {
-        if (freeSaucesUsed < maxFreeSauces) {
-          // It's free!
-          freeSaucesUsed++;
-        } else {
-          totalPrice += item.price;
+    Object.entries(selectedExtras).forEach(([id, qty]) => {
+      const extra = extrasOptions.find((e) => e.id === id);
+      if (!extra) return;
+
+      if (extra.type === "sauce") {
+        for (let i = 0; i < qty; i++) {
+          selectedSauces.push(extra);
         }
       } else {
-        totalPrice += item.price;
+        otherExtras.push({ ...extra, totalQty: qty });
       }
+    });
+
+    // Calculate price for sauces (first N are free)
+    selectedSauces.forEach((sauce) => {
+      if (freeSaucesUsed < maxFreeSauces) {
+        freeSaucesUsed++;
+      } else {
+        totalPrice += sauce.price;
+      }
+    });
+
+    // Calculate price for other extras
+    otherExtras.forEach((extra) => {
+      totalPrice += extra.price * extra.totalQty;
     });
 
     return totalPrice;
@@ -84,18 +104,25 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     if (!product) return;
-    const extras = extrasOptions.filter((e) => selectedExtras.includes(e.id));
 
-    // Recalculate which specific extras were free for the cart record?
-    // For simplicity, we just pass the selected extras and the calculated unit price.
-    // Or closer manipulation:
+    // Transform selectedExtras map to array for cart
+    const extrasList = [];
+    Object.entries(selectedExtras).forEach(([id, qty]) => {
+      const extra = extrasOptions.find((e) => e.id === id);
+      if (extra) {
+        extrasList.push({ ...extra, quantity: qty });
+      }
+    });
 
     const finalProduct = {
       ...product,
-      cartId: `${product.id}-${selectedExtras.join("-")}`,
-      selectedExtras: extras,
+      // Create unique cartId based on ID + Extras + Observations
+      cartId: `${product.id}-${JSON.stringify(selectedExtras)}-${observations.trim()}`,
+      selectedExtras: extrasList,
+      observations: observations.trim(),
       price: currentPrice,
     };
+
     addToCart(finalProduct, quantity);
     navigate("/carrinho");
   };
@@ -107,37 +134,14 @@ const ProductDetails = () => {
       </div>
     );
 
-  // Render Logic helpers
-  const getExtraPriceDisplay = (extra) => {
-    if (extra.type !== "sauce") return `+ ${formatCurrency(extra.price)}`;
-
-    // Determine if this specific sauce IS currently one of the free ones?
-    // Logic: Count how many sauces are selected BEFORE this one effectively?
-    // Or simply: If we haven't reached the limit of selected sauces, show "Grátis" for the next available?
-    // Better UI:
-    // Count total selected sauces.
-    // If isSelected: is it within the first N selected? -> GRÁTIS. Else Price.
-    // If NOT selected: Do we have free slots left? -> GRÁTIS. Else Price.
-
-    const selectedSauces = extrasOptions.filter(
-      (e) => selectedExtras.includes(e.id) && e.type === "sauce",
-    );
-    const isSelected = selectedExtras.includes(extra.id);
-    const selectedSauceCount = selectedSauces.length;
-
-    if (isSelected) {
-      // Find index of this sauce in selected list
-      const index = selectedSauces.findIndex((s) => s.id === extra.id);
-      if (index < maxFreeSauces)
-        return <span className="free-badge">Grátis</span>;
-    } else {
-      // If not selected, will it be free if I select it?
-      if (selectedSauceCount < maxFreeSauces)
-        return <span className="free-badge">Grátis</span>;
-    }
-
-    return `+ ${formatCurrency(extra.price)}`;
-  };
+  // Helper to count total selected sauces for display logic
+  const totalSelectedSauces = Object.entries(selectedExtras).reduce(
+    (total, [id, qty]) => {
+      const extra = extrasOptions.find((e) => e.id === id);
+      return extra?.type === "sauce" ? total + qty : total;
+    },
+    0,
+  );
 
   return (
     <div className="container product-page">
@@ -165,6 +169,18 @@ const ProductDetails = () => {
             {formatCurrency(currentPrice)}
           </h2>
 
+          {/* Observations Section */}
+          <div className="observations-section">
+            <h3>Observações do Pedido</h3>
+            <textarea
+              className="observations-input"
+              placeholder="Ex: Tirar a cebola, sem mostarda, ponto da carne..."
+              value={observations}
+              onChange={(e) => setObservations(e.target.value)}
+              rows={3}
+            />
+          </div>
+
           {/* Extras Section - HIDDEN for BEBIDAS */}
           {product.category !== "bebidas" && (
             <div className="extras-section">
@@ -172,26 +188,42 @@ const ProductDetails = () => {
                 Adicionar Extras{" "}
                 {maxFreeSauces > 0 && (
                   <span className="highlight-free">
-                    ({maxFreeSauces} Molhos Grátis)
+                    ({Math.max(0, maxFreeSauces - totalSelectedSauces)} Molhos
+                    Restantes Grátis)
                   </span>
                 )}
               </h3>
-              <div className="extras-grid">
+              <div className="extras-list">
                 {extrasOptions.map((extra) => {
-                  const isSelected = selectedExtras.includes(extra.id);
+                  const qty = selectedExtras[extra.id] || 0;
                   return (
                     <div
                       key={extra.id}
-                      className={`extra-card ${isSelected ? "selected" : ""}`}
-                      onClick={() => handleExtraChange(extra.id)}
+                      className={`extra-item ${qty > 0 ? "active" : ""}`}
                     >
-                      <div className="extra-card-header">
+                      <div className="extra-info">
                         <span className="extra-name">{extra.name}</span>
-                        {isSelected && <span className="check-icon">✓</span>}
+                        <span className="extra-price">
+                          + {formatCurrency(extra.price)}
+                        </span>
                       </div>
-                      <span className="extra-price">
-                        {getExtraPriceDisplay(extra)}
-                      </span>
+
+                      <div className="extra-controls">
+                        <button
+                          className="qty-btn-sm"
+                          onClick={() => handleExtraChange(extra.id, -1)}
+                          disabled={qty === 0}
+                        >
+                          <Minus size={14} />
+                        </button>
+                        <span className="extra-qty">{qty}</span>
+                        <button
+                          className="qty-btn-sm"
+                          onClick={() => handleExtraChange(extra.id, 1)}
+                        >
+                          <Plus size={14} />
+                        </button>
+                      </div>
                     </div>
                   );
                 })}
@@ -199,20 +231,21 @@ const ProductDetails = () => {
             </div>
           )}
 
-          <div className="action-area">
+          {/* Actions */}
+          <div className="product-actions">
             <div className="quantity-selector">
-              <button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>
+              <button
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                disabled={quantity <= 1}
+              >
                 <Minus size={20} />
               </button>
               <span>{quantity}</span>
-              <button onClick={() => setQuantity((q) => q + 1)}>
+              <button onClick={() => setQuantity(quantity + 1)}>
                 <Plus size={20} />
               </button>
             </div>
-            <button
-              className="btn btn-primary add-to-cart-large"
-              onClick={handleAddToCart}
-            >
+            <button className="add-to-cart-btn" onClick={handleAddToCart}>
               Adicionar • {formatCurrency(currentPrice * quantity)}
             </button>
           </div>

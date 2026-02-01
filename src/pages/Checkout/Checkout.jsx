@@ -367,6 +367,30 @@ const Checkout = () => {
             )}
           </section>
 
+          <section className="form-section">
+            <h3>Observações do Pedido</h3>
+            <div className="form-group">
+              <label>Alguma observação geral para o pedido?</label>
+              <textarea
+                className="observations-input"
+                placeholder="Ex: Campainha não funciona, deixar na portaria, etc."
+                value={orderObservations}
+                onChange={(e) => setOrderObservations(e.target.value)}
+                rows={3}
+                style={{
+                    width: '100%',
+                    padding: '0.8rem',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--border-color)',
+                    background: 'var(--bg-input)',
+                    color: 'var(--text-main)',
+                    fontFamily: 'inherit',
+                    resize: 'vertical'
+                }}
+              />
+            </div>
+          </section>
+
           <div className="order-summary-mini">
             <div className="summary-row">
               <span>Subtotal</span>

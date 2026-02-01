@@ -35,6 +35,7 @@ const Checkout = () => {
     state: "SP",
   });
   const [changeFor, setChangeFor] = useState("");
+  const [orderObservations, setOrderObservations] = useState("");
 
   const isOpen = storeConfig?.isOpen ?? true;
 
@@ -120,6 +121,7 @@ const Checkout = () => {
         type: orderType,
         paymentMethod: paymentMethod,
         changeFor: paymentMethod === "cash" ? changeFor : null,
+        observations: orderObservations,
         address: fullAddress,
         deliveryFee: deliveryFee,
         status: "Recebido", // Initial status

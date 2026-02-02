@@ -19,11 +19,17 @@ Ao clicar em um produto, o cliente tem acesso a funcionalidades avançadas:
 - **Controle de Adicionais:** Seletores de quantidade (➕/➖) para adicionar ingredientes extras (bacon, queijo, molhos).
 - **Campo de Observações:** Espaço dedicado para personalizar o item (ex: "Sem cebola", "Ponto da carne bem passado").
 
+### Ofertas e Engajamento
+
+- **Área de Promoções:** Página dedicada a produtos com preços especiais, destacando descontos (De/Por).
+- **Conexão Social:** Integração visual com o Instagram na página inicial, exibindo as últimas postagens para engajar o cliente com a marca.
+
 ### Carrinho de Compras
 
 - **Gestão de Itens:** Adicionar, remover ou alterar quantidades facilmente.
-- **Identificação Única:** O sistema diferencia itens iguais com observações diferentes (ex: um lanche "sem cebola" e outro "com tudo" ficam separados no carrinho).
-- **Subtotal Dinâmico:** Cálculo em tempo real.
+
+* **Identificação Única:** O sistema diferencia itens iguais com observações diferentes (ex: um lanche "sem cebola" e outro "com tudo" ficam separados no carrinho).
+* **Subtotal Dinâmico:** Cálculo em tempo real.
 
 ---
 

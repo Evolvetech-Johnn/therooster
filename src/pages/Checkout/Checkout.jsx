@@ -132,7 +132,7 @@ const Checkout = () => {
     setTimeout(() => {
       let fullAddress = "";
       if (orderType === "delivery") {
-        fullAddress = `${address.street}, ${address.number} - ${address.neighborhood} (${address.cep})${address.complement ? ` - ${address.complement}` : ""}`;
+        fullAddress = `${address.street}, ${address.number} - ${address.neighborhood} (${address.cep})${address.complement ? ` - ${address.complement}` : ''}`;
       } else if (orderType === "dine_in") {
         fullAddress = `Mesa ${tableNumber}`;
       } else {
@@ -142,9 +142,7 @@ const Checkout = () => {
       const newOrder = {
         customer: user?.name || "Cliente",
         phone: phone,
-        items: cartItems
-          .map((item) => `${item.quantity}x ${item.name}`)
-          .join(", "),
+        items: cartItems.map((item) => `${item.quantity}x ${item.name}`).join(", "),
         itemsList: cartItems,
         total: total,
         type: orderType,
@@ -155,7 +153,7 @@ const Checkout = () => {
         address: fullAddress,
         deliveryFee: deliveryFee,
         status: "Recebido", // Initial status
-        createdAt: new Date().toISOString(),
+        createdAt: new Date().toISOString()
       };
 
       const createdOrder = addOrder(newOrder);

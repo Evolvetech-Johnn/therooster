@@ -87,7 +87,34 @@ O cliente acompanha o progresso através de uma linha do tempo visual que muda c
 
 ---
 
-## 6. ⚠️ ALERTA ESTRATÉGICO: Registro de Marca
+## 6. 📊 Painel Administrativo (Dashboard)
+
+O sistema conta com uma área restrita para gestão completa do negócio, oferecendo ferramentas para controle financeiro, de estoque e operacional.
+
+### 💰 Financeiro
+
+- **Visão Geral:** Cards com Receita Total, Despesas Totais e Contas a Pagar.
+- **Fluxo de Caixa:** Acompanhamento de entradas (pedidos realizados) e saídas.
+- **Controle de Despesas:** Tabela para cadastro e gestão de contas (Fornecedores, Energia, etc.) com status de pagamento (Pendente/Pago).
+
+### 📦 Gestão de Estoque e Cardápio
+
+- **Catálogo de Produtos:** Adicionar, editar ou remover itens do cardápio.
+- **Controle de Insumos:** Gestão de matérias-primas (ex: estoque de pães, carnes, embalagens).
+- **Busca Rápida:** Facilidade para encontrar produtos para edição de preços ou descrições.
+
+### 👨‍🍳 Gerenciador de Pedidos (Kanban)
+
+- **Visualização em Colunas:** Organização visual do fluxo de produção:
+  1.  **Recebidos:** Pedidos novos aguardando aceite.
+  2.  **Em Preparo:** Pedidos na cozinha.
+  3.  **Pronto:** Aguardando entregador ou retirada.
+  4.  **Finalizados:** Histórico de entregas concluídas.
+- **Ações Rápidas:** Botões para avançar o status do pedido com um clique.
+
+---
+
+## 7. ⚠️ ALERTA ESTRATÉGICO: Registro de Marca
 
 **Importância Crítica:**
 O registro da marca "The Rooster" no INPI (Instituto Nacional da Propriedade Industrial) é fundamental para garantir a exclusividade do nome e proteger o patrimônio da empresa. Sem o registro, a marca está vulnerável a cópias, uso indevido e até processos judiciais que podem impedir o uso do nome.
